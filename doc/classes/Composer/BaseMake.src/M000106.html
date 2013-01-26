@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (Composer::BaseMake)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File utils.rb, line 155</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">caller</span>,<span class="ruby-identifier">face_def</span>)
+      <span class="ruby-ivar">@caller</span>=<span class="ruby-identifier">caller</span>
+      <span class="ruby-ivar">@logger</span>=<span class="ruby-constant">SingletonLogger</span>.<span class="ruby-identifier">instance</span>
+      <span class="ruby-comment cmt">#実行時のfaceクラスの格納されているパス</span>
+      <span class="ruby-ivar">@my_dir</span>=<span class="ruby-node">&quot;#{Composer::BASE_DIR}/face/#{face_def}&quot;</span>
+      <span class="ruby-comment cmt">#実行結果を出力すべきパス</span>
+      <span class="ruby-ivar">@outfiles_dir</span>=<span class="ruby-constant">OUTFILES_DIR</span>
+      <span class="ruby-identifier">on_setup</span> <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:on_setup</span>)
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

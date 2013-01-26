@@ -1,0 +1,15 @@
+schedule sked3 on tu,th
+  prompt "All ap users logged out of ^sys1^? (y/n)"
+:
+  job1 prompt apmsg
+  job2 prompt apmsg
+end 
+
+schedule sked5 on fr
+  prompt  "The jobs in this job stream consume \n
+an enormous amount of cpu time.\n
+Do you want to launch it now? (y/n)"
+:
+  j1
+  j2 follows j1
+end 

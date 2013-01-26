@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>parse (Composer::Parser::ScheduleParser)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File parser/schedule_parser82.rb, line 6</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">fname</span>)
+    <span class="ruby-ivar">@logger</span>=<span class="ruby-operator">::</span><span class="ruby-constant">Composer</span><span class="ruby-operator">::</span><span class="ruby-constant">SingletonLogger</span>.<span class="ruby-identifier">instance</span>
+    <span class="ruby-ivar">@comment_buffer</span>=[]
+    <span class="ruby-ivar">@job_buffer</span>=[]
+    <span class="ruby-ivar">@date_buffer</span>=[]
+    <span class="ruby-ivar">@time_buffer</span>=[]
+    <span class="ruby-ivar">@follow_buffer</span>=[]
+    <span class="ruby-ivar">@resource_buffer</span>=[]
+    <span class="ruby-ivar">@file_buffer</span>=[]
+    <span class="ruby-ivar">@prompt_buffer</span>=[]
+    <span class="ruby-ivar">@job_buffer</span>=[]
+
+
+    <span class="ruby-ivar">@schedules</span>=[]
+    <span class="ruby-ivar">@schedule</span>=<span class="ruby-operator">::</span><span class="ruby-constant">Composer</span><span class="ruby-operator">::</span><span class="ruby-constant">TwsObj</span><span class="ruby-operator">::</span><span class="ruby-constant">Schedule</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-ivar">@job</span>=<span class="ruby-operator">::</span><span class="ruby-constant">Composer</span><span class="ruby-operator">::</span><span class="ruby-constant">TwsObj</span><span class="ruby-operator">::</span><span class="ruby-constant">ScheduledJob</span>.<span class="ruby-identifier">new</span>
+<span class="ruby-comment cmt">#     scanner=GenericScanner.new(fname)</span>
+    <span class="ruby-comment cmt"># schedule_parser.y でスキャナのモードを切り替える必要があるため、</span>
+    <span class="ruby-comment cmt"># scheduleに関してはscannerをインスタンス変数に格納。</span>
+    <span class="ruby-ivar">@scanner</span>=<span class="ruby-operator">::</span><span class="ruby-constant">Composer</span><span class="ruby-operator">::</span><span class="ruby-constant">Scanner</span><span class="ruby-operator">::</span><span class="ruby-constant">ModeSwitchableScanner</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">fname</span>,<span class="ruby-keyword kw">self</span>)
+    
+    <span class="ruby-comment cmt"># scannerを設定</span>
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A\s/</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">on</span>(<span class="ruby-identifier">:COMMENTABLE</span>){<span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">s</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A\*.*?$/</span>          ,<span class="ruby-identifier">:LINECOMMENT</span>)
+    }
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A\*.*?$/</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A&lt;&lt;(.+?)&gt;&gt;/</span>)   <span class="ruby-comment cmt"># &lt;&lt; &gt;&gt; 形式はコメント</span>
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A\(.+?\)/i</span>   ,<span class="ruby-identifier">:PHARENBLOCK</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A\:\:/</span>            ,<span class="ruby-value str">'::'</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A\:/</span>              ,<span class="ruby-value str">':'</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A\,/</span>              ,<span class="ruby-value str">','</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A\./</span>              ,<span class="ruby-value str">'.'</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A\@/</span>              ,<span class="ruby-value str">'@'</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A\#/i</span>             ,<span class="ruby-value str">'#'</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A\+/</span>              ,<span class="ruby-value str">'+'</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A\-/</span>              ,<span class="ruby-value str">'-'</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">reserved_word</span>(<span class="ruby-keyword kw">false</span>,<span class="ruby-value str">&quot;ABENDPROMPT&quot;</span>, <span class="ruby-value str">&quot;AFTER&quot;</span>, <span class="ruby-value str">&quot;AT&quot;</span>, <span class="ruby-value str">&quot;CARRYFORWARD&quot;</span>, <span class="ruby-value str">&quot;CONFIRMED&quot;</span>, <span class="ruby-value str">&quot;DAYS&quot;</span>, <span class="ruby-value str">&quot;DEADLINE&quot;</span>, <span class="ruby-value str">&quot;DESCRIPTION&quot;</span>, <span class="ruby-value str">&quot;DOCOMMAND&quot;</span>, <span class="ruby-value str">&quot;EVERY&quot;</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">reserved_word</span>(<span class="ruby-keyword kw">false</span>,<span class="ruby-value str">&quot;EXCEPT&quot;</span>, <span class="ruby-value str">&quot;FDIGNORE&quot;</span>, <span class="ruby-value str">&quot;FDNEXT&quot;</span>, <span class="ruby-value str">&quot;FDPREV&quot;</span>, <span class="ruby-value str">&quot;FOLLOWS&quot;</span>, <span class="ruby-value str">&quot;FREEDAYS&quot;</span>, <span class="ruby-value str">&quot;GO&quot;</span>, <span class="ruby-value str">&quot;HI&quot;</span>, <span class="ruby-value str">&quot;INTERACTIVE&quot;</span>, <span class="ruby-value str">&quot;KEYJOB&quot;</span>, <span class="ruby-value str">&quot;KEYSCHED&quot;</span>, <span class="ruby-value str">&quot;LIMIT&quot;</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">reserved_word</span>(<span class="ruby-keyword kw">false</span>,<span class="ruby-value str">&quot;NEEDS&quot;</span>, <span class="ruby-value str">&quot;ON&quot;</span>, <span class="ruby-value str">&quot;ONUNTIL&quot;</span>, <span class="ruby-value str">&quot;OPENS&quot;</span>, <span class="ruby-value str">&quot;PRIORITY&quot;</span>, <span class="ruby-value str">&quot;PROMPT&quot;</span>, <span class="ruby-value str">&quot;RCCONDSUCC&quot;</span>, <span class="ruby-value str">&quot;RECOVERY&quot;</span>, <span class="ruby-value str">&quot;REQUEST&quot;</span>, <span class="ruby-value str">&quot;SCHEDULE&quot;</span>, <span class="ruby-value str">&quot;SCRIPTNAME&quot;</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">reserved_word</span>(<span class="ruby-keyword kw">false</span>, <span class="ruby-value str">&quot;STREAMLOGON&quot;</span>, <span class="ruby-value str">&quot;TIMEZONE&quot;</span>, <span class="ruby-value str">&quot;UNTIL&quot;</span>, <span class="ruby-value str">&quot;WEEKDAYS&quot;</span>, <span class="ruby-value str">&quot;WORKDAYS&quot;</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A(day)[^\w-]/i</span>            ,<span class="ruby-identifier">:DAYS</span> , <span class="ruby-keyword kw">true</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A(weekday)[^\w-]/i</span>        ,<span class="ruby-identifier">:WEEKDAYS</span> , <span class="ruby-keyword kw">true</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A(workday)[^\w-]/i</span>        ,<span class="ruby-identifier">:WORKDAYS</span> , <span class="ruby-keyword kw">true</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A(tz)[^\w-]/i</span>             ,<span class="ruby-identifier">:TIMEZONE</span> , <span class="ruby-keyword kw">true</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A(end)[^\w-]/i</span>             ,<span class="ruby-identifier">:ENDSTMT</span> , <span class="ruby-keyword kw">true</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">builtin_token</span>(<span class="ruby-identifier">:DATE</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">builtin_token</span>(<span class="ruby-identifier">:NUMBER</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">builtin_token</span>(<span class="ruby-identifier">:WORD</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">builtin_token</span>(<span class="ruby-identifier">:STRING</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">builtin_token</span>(<span class="ruby-identifier">:PATH</span>)
+    <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">switch</span>(<span class="ruby-identifier">:COMMENTABLE</span>)
+    <span class="ruby-identifier">yyparse</span>(<span class="ruby-ivar">@scanner</span>, <span class="ruby-identifier">:scan</span>)
+    { <span class="ruby-identifier">:schedules</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@schedules</span> }
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

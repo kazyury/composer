@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>append_tokens (Composer::Scanner::ModeSwitchableScanner)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File scanner/mode_switchable_scanner.rb, line 41</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">append_tokens</span>(<span class="ruby-identifier">reg</span>,<span class="ruby-identifier">token</span>=<span class="ruby-keyword kw">nil</span>,<span class="ruby-identifier">go_back</span>=<span class="ruby-keyword kw">false</span>)
+      <span class="ruby-ivar">@tokens</span>=<span class="ruby-ivar">@mode_frame</span>[<span class="ruby-ivar">@mode</span>]
+      <span class="ruby-keyword kw">super</span>
+      <span class="ruby-identifier">regist_default_token</span>(<span class="ruby-identifier">reg</span>,<span class="ruby-identifier">token</span>,<span class="ruby-identifier">go_back</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@mode</span><span class="ruby-operator">==</span><span class="ruby-identifier">:DEFAULT</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

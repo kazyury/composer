@@ -1,0 +1,4 @@
+schedule sked7 on everyday :
+    jobc at 1430 deadline 1600
+end
+

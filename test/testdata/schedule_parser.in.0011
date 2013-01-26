@@ -1,0 +1,7 @@
+schedule sked4 on mo,we,fr :
+  joba needs 1 jlimit
+  jobb needs 1 jlimit
+  jobc needs 2 jlimit    <<runs alone>>
+  jobd needs 1 jlimit
+end
+

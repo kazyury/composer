@@ -1,0 +1,7 @@
+cpuclass backup
+     members
+          main
+          site1
+          site2
+end
+

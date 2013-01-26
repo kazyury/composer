@@ -1,0 +1,34 @@
+domain distr-a description " this is distributed site A domain. "
+     manager distr-a1
+     parent masterdm
+end 
+cpuname ENNETI3
+     os WNT
+     node apollo
+     tcpaddr 30112
+     secureaddr 32222 timezone est
+     domain distr-a
+     for maestro
+					host 49ners.hoge.hige access FOO
+					type  X-AGENT
+					ignore
+          autolink off
+          fullstatus  ON
+          securitylevel force
+					server M
+					behindfirewall on
+end 
+cpuname distr-a1 description "District A domain mgr"
+     os wnt
+     tz est
+     node pewter.ibm.com
+     for maestro type fta 
+          autolink    on
+          fullstatus  on
+          resolvedep  on
+end 
+cpuclass allcpus
+     members
+          @
+end
+

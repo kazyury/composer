@@ -1,0 +1,24 @@
+domain distr-a
+     manager distr-a1
+     parent masterdm
+end 
+
+cpuname distr-a1 description "District A domain mgr"
+     os wnt
+     tz est
+     node pewter.ibm.com
+     domain distr-a
+     for maestro type fta 
+          autolink    on
+          fullstatus  on
+          resolvedep  on
+end 
+
+cpuname distr-a2 
+     os wnt
+     node quatro.ibm.com 
+     tz est
+     domain distr-a
+     for maestro type s-agent 
+end 
+

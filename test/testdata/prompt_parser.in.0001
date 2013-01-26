@@ -1,0 +1,8 @@
+$prompt
+     prmt1 "ready for job4? (y/n)"
+     prmt2 ":job4 launched" 
+     prmt3 "!continue?"
+     prmt4 "this is multi line\n
+prompt.\n
+Do you understand?"
+

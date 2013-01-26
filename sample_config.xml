@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="Shift_JIS" ?>
+<config>
+  <log_level    value="1" />
+  <use_cache    value="true" />
+  <tws_level    value="8.2" />
+  <calendars    value="test\\testdata\\calendar_parser.in.0001" />
+  <jobs         value="test\\testdata\\job_parser.in.0001" />
+  <parameters   value="test\\testdata\\parameter_parser.in.0001" />
+  <prompts      value="test\\testdata\\prompt_parser.in.0001" />
+  <resources    value="test\\testdata\\resource_parser.in.0001" />
+  <schedules    value="test\\testdata\\schedule_parser.in.0001" />
+  <workstations value="test\\testdata\\workstation_parser.in.0001" />
+  <faces>
+    <face value="default_face"></face>
+    <face value="stream_plan">
+      <prep method="range_set" values="2006-01-01 2006-02-01" />
+    </face>
+    <face value="jobnet">
+      <prep method="outformat="         values="svg" />
+      <prep method="stream_filter="     values="S2_(JBA[^U]|JBT|JBI|JBX)" />
+      <prep method="draw_only_request=" values="false" />
+    </face>
+  </faces>
+</config>

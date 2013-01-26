@@ -1,0 +1,32 @@
+$jobs
+cpu1#gl1
+		scriptname "/usr/acct/scripts/gl1"
+		docommand "C:\Hidemaru.exe %1"
+		streamlogon acct
+		description "general ledger job1"
+		interactive
+		rccondsucc "(RC=3) OR ((RC>=5) AND (RC<10))"
+		recovery stop
+		after SomeHost#SomeJob1
+		abendprompt "! abended."
+cpu2#gl2
+		scriptname "/usr/acct/scripts/gl2"
+		docommand "C:\Hidemaru.exe %2"
+		streamlogon acct
+		description "general ledger job2"
+		interactive
+		rccondsucc "(RC=3) OR ((RC>=5) AND (RC<10))"
+		recovery continue
+		after SomeHost#SomeJob1
+		abendprompt ": abended."
+cpu3#gl3
+		scriptname "/usr/acct/scripts/gl3"
+		docommand "C:\Hidemaru.exe %3"
+		streamlogon acct
+		description "general ledger job3"
+		interactive
+		rccondsucc "(RC=3) OR ((RC>=5) AND (RC<10))"
+		recovery rerun
+		after SomeHost#SomeJob1
+		abendprompt "abended."
+

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>scan (Composer::Scanner::GenericScanner)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File scanner/generic_scanner.rb, line 63</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">scan</span>
+      <span class="ruby-identifier">lineno</span>=<span class="ruby-value">1</span>
+      <span class="ruby-ivar">@parser</span>.<span class="ruby-identifier">scan_line</span>=<span class="ruby-identifier">lineno</span>
+      <span class="ruby-comment cmt"># 正規表現が何れもマッチしない場合の無限ループ避け</span>
+      <span class="ruby-ivar">@tokens</span>.<span class="ruby-identifier">push</span> [<span class="ruby-regexp re">/./</span>,<span class="ruby-identifier">:UNKNOWN</span>,<span class="ruby-keyword kw">false</span>]
+
+      <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@declare</span> 
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">matched</span>=<span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-ivar">@declare</span>)
+          <span class="ruby-keyword kw">yield</span> <span class="ruby-operator">:</span><span class="ruby-constant">DECLARE</span> , <span class="ruby-identifier">matched</span>
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">raise</span> <span class="ruby-constant">ScanUnmatchError</span>.<span class="ruby-identifier">new</span>( <span class="ruby-value str">&quot;DECLARATION was not in head of file &quot;</span> )
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+
+      <span class="ruby-keyword kw">until</span> <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">eos?</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">match?</span>(<span class="ruby-regexp re">/\A\n/</span>)
+          <span class="ruby-identifier">lineno</span><span class="ruby-operator">+=</span><span class="ruby-value">1</span>
+          <span class="ruby-ivar">@parser</span>.<span class="ruby-identifier">scan_line</span>=<span class="ruby-identifier">lineno</span>
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-ivar">@tokens</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">reg_token</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">reg</span>, <span class="ruby-identifier">token</span>, <span class="ruby-identifier">go_back</span> = <span class="ruby-identifier">reg_token</span>
+          <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;#{self.class}&quot;</span>){ <span class="ruby-node">&quot;reg_token : #{reg} ,\t#{token}&quot;</span> }
+          <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">matched</span>=<span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-identifier">reg</span>)
+            <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;#{self.class}&quot;</span>){<span class="ruby-node">&quot;[ #{reg} ] matched to [ #{matched} ] as [ #{token} ].&quot;</span>}
+            <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">token</span>
+              <span class="ruby-comment cmt"># go_back がTRUEの場合には、1文字余分に読んでいるので読み戻す。</span>
+              <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">go_back</span>
+                <span class="ruby-identifier">matched</span>=<span class="ruby-ivar">@scanner</span>[<span class="ruby-value">1</span>] <span class="ruby-comment cmt"># ()内のみをマッチしたデータとして置き換え</span>
+                <span class="ruby-ivar">@scanner</span>.<span class="ruby-identifier">pos</span><span class="ruby-operator">-=</span><span class="ruby-value">1</span>
+              <span class="ruby-keyword kw">end</span>
+
+              <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;#{self.class}&quot;</span>){<span class="ruby-node">&quot;yields #{token} #{matched}&quot;</span>}
+              <span class="ruby-keyword kw">yield</span> <span class="ruby-identifier">token</span>, <span class="ruby-identifier">matched</span>
+              <span class="ruby-keyword kw">break</span> <span class="ruby-comment cmt"># jump out @tokens.each</span>
+            <span class="ruby-keyword kw">else</span>
+              <span class="ruby-comment cmt"># tokenの指定されていない正規表現は読み飛ばし</span>
+              <span class="ruby-keyword kw">break</span> <span class="ruby-comment cmt"># jump out @tokens.each</span>
+            <span class="ruby-keyword kw">end</span>
+          <span class="ruby-keyword kw">end</span>
+        }
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">yield</span> <span class="ruby-keyword kw">false</span>,<span class="ruby-keyword kw">false</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,8 @@
+schedule bkup on fr at 2000 :
+  cpu1#jbk1
+  cpu2#jbk2
+    needs 1 tape
+  cpu3#jbk3
+    follows jbk1
+end
+

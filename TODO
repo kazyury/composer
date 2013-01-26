@@ -1,0 +1,45 @@
+== Todo
+* TWSのバージョン変更に伴うスキャナ、パーサの切り替えを実装
+* StreamPlan#expand_dates でカレンダーのオフセットとしてWEEKDAYS,WORKDAYSが指定されたときの挙動が未実装となっている。
+* 休日カレンダーの取り扱いを整理する。StreamPlanではON-Exceptをしているだけ。何が正しいの？？？
+* USERNAME も一応やらなくちゃ。
+* 各parser.yの中のアクションで、とり得る値のチェックをもう少し厳密に。
+* erbファイル中でマクロ展開のようなことができるとより便利かも。
+
+== Done
+* 2008/11/15 パッケージングツールをrakeからantに変更
+* 2008/11/15 Jobnetを連結部分グラフに分割する、Subnet Faceを組み込み
+* UI部分でYAML形式だけではなく、XML形式でも受け入れられる様に。
+* StreamPlan#expand_dates でリテラルのWORKDAYS,FREEDAYSが指定されたときの挙動がEVERYDAYと同様になっている。
+* JobNetを表現するFaceを組み込みに。(SVG?)
+* Exerb化
+* UIクラス(ComposerFace)をまじめに。
+* ディレクトリ関連を整理する。(Exerb化を見越して)
+* 各スケジューリングオブジェクトのクラスに?付きメソッドを追加する。("ON"はtrue,"OFF"はfalseとか。)
+* parse済みの内容をキャッシュする機構を組み込む。
+* UI部分はまだfrontend.rbの中に入っている。
+* calendar でDATEを還元する際に、文字列("dd/mm/yy")のままでもつのではなく、数値(yyyymmdd)の形式で保持する。
+  ---> offsetの計算とかが必要なので、かなり重量が増えるけどDateも別途保持
+* formatterの切替え
+  ---> 例えば、配信計画(PublishPlan)をExcelでカレンダー形式で出力できるようにとか。
+* frontendで入力ファイルの漢字コードを切り替えられるように。
+* frontendでLoggerのlevelを切り替えるインタフェースを。
+* reserved_tokens を、幅を考慮してもう少し整理する必要がある。
+* create test cases.
+* ScheduleのOPENSを他とあわせた管理方式に。(OpenFileとかのクラスを用意,@file_bufferにはそのOpenFileオブジェクトを格納)
+* testcase/schedule0014 : weekdays が予約語とかぶっている...。
+* scheduleからデータを拾うときのアクセス方法がとっても面倒。
+  --->APIをもう少し練る必要があるかな。(特に、JOB/ON等ネストが深いもの)
+* 残りのparser/template/struct作成
+  SCHED template / struct
+* 多分、job_parser.y(cpu?cpuclass?)も指定できる項目の順序が決まっていないような気がする。
+* FREEDAYS, BEHINDFIREWALL, ONUNTIL がSCHEDに出てくるが、バージョン問題？
+* SCHED のconflict をどうにかしたいんだけど...。
+* loggerを組み込む(puts撲滅)
+* schedule_parser.rb でQUALIFIERとしたい部分がPATHでマッチしてしまう。QUALIFIERの優先度を上げて、かつ範囲を絞る方向で。
+* parser等で似たような処理を1つにまとめるように。
+* Exception系を整理。(やっつけにならないように)
+* frontend.rb内での似たような処理をrefactoring
+* Template => ErbFormatter
+* jobのテンプレートを作成
+

@@ -1,0 +1,11 @@
+cpuname ENNETI3
+     os WNT
+     node apollo
+     tcpaddr 30112
+     secureaddr 32222
+     for maestro
+          autolink off
+          fullstatus  on
+          securitylevel on
+end 
+

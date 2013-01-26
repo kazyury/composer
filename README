@@ -1,0 +1,44 @@
+= composer_face
+== Introduction
+composer_faceは、Tivoli Workload Scheduler(以降、TWS)のComposerプログラムにて
+createコマンドを発行して作成されるファイルの内容を解析し、他の表現形式に(比較的)容易に変換可能とするツールです。
+
+当ツールの構成は大きく以下の様に分類されます。
+1. ユーザーインタフェース部
+2. Composerファイル解析部
+3. 解析結果の表現形式変換部
+
+上記のうち、3.の表現形式変換部は差し替え可能となっており、#{path}/face/以下にユーザープログラムを配置することで、表現形式を切り替えることが出来ます。
+この表現形式のことを、composer_face内では、 Face と呼称します。
+(詳細は Composer::BaseMake を参照してください。)
+
+使用しているバージョンで組み込まれているFaceについては、Composer::BaseMake を参照してください。
+
+== Tutorial
+- まずは使ってみる。
+  ---> UserInterface を参照してください。
+- ユーザー定義Faceを作成する。
+  ---> Composer::BaseMake を参照してください。
+- このツールをhackする。
+  ---> Composer::FrontEnd を取っ掛かりとし各クラスのソースを確認してください。(privateメソッドやユーザー定義Faceを作成するには不要なメソッドはRdoc対象から外しています。)
+
+== 稼動要件
+- Windows実行バイナリ形式(composer_face.exe)を使用する場合
+  - Faceとしてstream_plan を使用する場合、Windows PC上にMicrosoft Excelがインストールされていて使用可能である必要が有ります。
+
+- ソースコード(composer_face.rb)を使用する場合
+  - 実行マシン上にて、rubyがインストールされていて使用可能である必要があります。(V1.8.1以上にて動作確認)
+  - rubyに標準添付されているライブラリが使用可能である必要があります。(V1.8.1以上ならば添付されている筈です。詳しくは、composer_face.exy ファイルを参照してください。)
+		
+
+== 前提事項
+- このバージョンのcomposer_faceは、TWSの以下のリファレンスに従い実装されています。同バージョン以外では動作の確認は行っておりませんのでご了承ください。
+	[ SC88-9680-01 ]リファレンス・ガイド V8.2
+	バージョン 8.2 (2004 年 12 月改訂)
+	IBM Tivoli Workload Scheduler バージョン 8、リリース 2、モディフィケーション・レベル 0 (プログラム番号 5698-WSH)
+
+
+== Author
+Kazunori Sasaki(kasasa@jp.ibm.com)
+
+

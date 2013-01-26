@@ -1,0 +1,7 @@
+schedule sked1  on tu
+priority 50
+:
+job1 priority 15
+job2 priority 10
+end
+

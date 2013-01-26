@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<project name="composer_face" basedir="." default="default" >
+
+	<property name="dir.doc" value="doc" />
+	<property name="dir.parser" value="parser" />
+	<property file="VERSION" />
+	<property name="exerb.core" value="D:/ruby/share/exerb/ruby184c.exc" />
+
+	<target name="default">
+		<echo message="See `ant -p` for available targets." />
+	</target>
+
+	<target name="generate_docs" description="Generate Rdoc document." >
+		<delete dir="doc" />
+		<exec dir="${basedir}" executable="rdoc.bat" >
+      <arg line="--main composer_face.rb --charset Shift_JIS --exclude test --tab-width 2 --accessor sensitive_accessor=RW,sensitive_writer=W" />
+		</exec>
+	</target>
+
+  <target name="generate_parser" description="Generate Parsers using Racc" >
+		<exec dir="parser" executable="racc.bat" >
+      <arg line="-v -g -o calendar_parser_core82.rb calendar_parser82.y" />
+		</exec>
+		<exec dir="${dir.parser}" executable="racc.bat" >
+      <arg line="-v -g -o job_parser_core82.rb job_parser82.y" />
+		</exec>
+		<exec dir="${dir.parser}" executable="racc.bat" >
+      <arg line="-v -g -o parameter_parser_core82.rb parameter_parser82.y" />
+		</exec>
+		<exec dir="${dir.parser}" executable="racc.bat" >
+      <arg line="-v -g -o prompt_parser_core82.rb prompt_parser82.y" />
+		</exec>
+		<exec dir="${dir.parser}" executable="racc.bat" >
+      <arg line="-v -g -o resource_parser_core82.rb resource_parser82.y" />
+		</exec>
+		<exec dir="${dir.parser}" executable="racc.bat" >
+      <arg line="-v -g -o schedule_parser_core82.rb schedule_parser82.y" />
+		</exec>
+		<exec dir="${dir.parser}" executable="racc.bat" >
+      <arg line="-v -g -o workstation_parser_core82.rb workstation_parser82.y" />
+		</exec>
+		<exec dir="parser" executable="racc.bat" >
+      <arg line="-v -g -o calendar_parser_core84.rb calendar_parser84.y" />
+		</exec>
+		<exec dir="${dir.parser}" executable="racc.bat" >
+      <arg line="-v -g -o job_parser_core84.rb job_parser84.y" />
+		</exec>
+		<exec dir="${dir.parser}" executable="racc.bat" >
+      <arg line="-v -g -o parameter_parser_core84.rb parameter_parser84.y" />
+		</exec>
+		<exec dir="${dir.parser}" executable="racc.bat" >
+      <arg line="-v -g -o prompt_parser_core84.rb prompt_parser84.y" />
+		</exec>
+		<exec dir="${dir.parser}" executable="racc.bat" >
+      <arg line="-v -g -o resource_parser_core84.rb resource_parser84.y" />
+		</exec>
+		<exec dir="${dir.parser}" executable="racc.bat" >
+      <arg line="-v -g -o schedule_parser_core84.rb schedule_parser84.y" />
+		</exec>
+		<exec dir="${dir.parser}" executable="racc.bat" >
+      <arg line="-v -g -o workstation_parser_core84.rb workstation_parser84.y" />
+		</exec>
+  </target>
+
+	<target name="run_unit_test" depends="generate_parser" description="Run unit-test" >
+		<exec dir="test" executable="ruby.exe">
+			<arg line="test_suite.rb" />
+		</exec>
+	</target>
+
+	<target name="generate_exe" depends="make_recipe" description="Generate Win32 Executables." >
+		<exec dir="${basedir}" executable="exerb.bat">
+			<arg line="-C ${exerb.core} composer_face.exy" />
+		</exec>
+	</target>
+
+	<target name="make_recipe" 
+		description="Generate exerb recipe file for Win32 Executables." >
+		<exec dir="${basedir}" executable="ruby.exe">
+			<arg line="-r exerb/mkexy composer_face.rb -x sample_config.xml" />
+		</exec>
+	</target>
+
+	<target name="release_binary"
+		description="Run unit-test, Generate docs, Generate Executables, and Packaging." >
+		<antcall target="run_unit_test" />
+		<antcall target="generate_docs" />
+		<antcall target="generate_exe" />
+		<antcall target="package_binary" />
+	</target>
+
+	<target name="release_source"
+		description="Run unit-test, Generate docs, Generate Executables, and Packaging." >
+		<antcall target="run_unit_test" />
+		<antcall target="package_source" />
+	</target>
+
+	<target name="package_binary" description="Packages executables,rdoc,and so on." >
+		<property name="destdir" value="../composer_face.v${version}.win32" />
+		<property name="desttar" value="${destdir}.tar" />
+		<!--
+		tar作成用ディレクトリに配布物をコピーし、tarにまとめる。
+		配布物は
+      README
+      REQUIREMENTS
+      TODO
+      VERSION
+      composer_face.exe
+      sample_config.xml
+      sample_config.yaml
+			doc/
+      face/
+		-->
+		<echo message="generating ${desttar}" />
+		<delete dir="${destdir}" />
+		<mkdir  dir="${destdir}" />
+		<copy file="README" todir="${destdir}" />
+		<copy file="REQUIREMENTS" todir="${destdir}" />
+		<copy file="TODO" todir="${destdir}" />
+		<copy file="VERSION" todir="${destdir}" />
+		<copy file="composer_face.exe" todir="${destdir}" />
+		<copy todir="${destdir}/doc" >
+			<fileset dir="doc" />
+		</copy>
+		<copy todir="${destdir}/face" >
+			<fileset dir="face" />
+		</copy>
+		<tar destfile="${desttar}" basedir="${destdir}" />
+		<antcall target="zip" />
+	</target>
+
+	<target name="package_source" description="Packages sources." >
+		<!--
+		tar作成用ディレクトリに配布物をコピーし、tarにまとめる。
+		配布物は
+      README
+      REQUIREMENTS
+      TODO
+      VERSION
+      composer_face.rb
+      dirs.rb
+      errors.rb
+      frontend.rb
+      singleton_logger.rb
+      utils.rb
+      parser/
+      scanner/
+      doc/
+      face/
+      test/
+		-->
+		<property name="destdir" value="../composer_face.v${version}.src" />
+		<property name="desttar" value="${destdir}.tar" />
+		<echo message="generating ${desttar}" />
+		<delete dir="${destdir}" />
+		<mkdir  dir="${destdir}" />
+		<copy file="README" todir="${destdir}" />
+		<copy file="REQUIREMENTS" todir="${destdir}" />
+		<copy file="TODO" todir="${destdir}" />
+		<copy file="VERSION" todir="${destdir}" />
+		<copy file="composer_face.rb" todir="${destdir}" />
+		<copy file="dirs.rb" todir="${destdir}" />
+		<copy file="errors.rb" todir="${destdir}" />
+		<copy file="frontend.rb" todir="${destdir}" />
+		<copy file="singleton_logger.rb" todir="${destdir}" />
+		<copy file="utils.rb" todir="${destdir}" />
+		<copy todir="${destdir}/parser" >
+			<fileset dir="parser" />
+		</copy>
+		<copy todir="${destdir}/scanner" >
+			<fileset dir="scanner" />
+		</copy>
+		<copy todir="${destdir}/doc" >
+			<fileset dir="doc" />
+		</copy>
+		<copy todir="${destdir}/test" >
+			<fileset dir="test" />
+		</copy>
+		<copy todir="${destdir}/face" >
+			<fileset dir="face" />
+		</copy>
+    <mkdir  dir="${destdir}/cache" />
+    <mkdir  dir="${destdir}/outfiles" />
+    <mkdir  dir="${destdir}/infiles" />
+		<tar destfile="${desttar}" basedir="${destdir}" />
+		<antcall target="zip" />
+	</target>
+
+	<target name="zip" description="gzip package." >
+		<gzip src="${desttar}" destfile="${desttar}.gz" />
+	</target>
+</project>
+

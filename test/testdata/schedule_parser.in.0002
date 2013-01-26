@@ -1,0 +1,6 @@
+schedule sfran#sked8 on fr at 1000 + 1 day :
+job1
+job2 at 1400 tz est 
+nycity#job3 at 1600
+end 
+

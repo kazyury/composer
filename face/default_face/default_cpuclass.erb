@@ -1,0 +1,6 @@
+workstation-class,members
+<% cpuclasses.each do |cls| -%>
+<%		cls.members.each do |m| -%>
+<%= cls.cpuclass %>,<%= m %>
+<%		end -%>
+<% end -%>

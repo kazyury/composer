@@ -1,0 +1,6 @@
+schedule test1 on fr:
+job1 confirmed
+job2 follows job1
+job3 follows job1
+end
+

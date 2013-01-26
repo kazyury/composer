@@ -1,0 +1,6 @@
+schedule SCHED01 ON WORKDAYS
+FREEDAYS VACATIONS
+:
+job1
+job2 
+end 

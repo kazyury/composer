@@ -1,0 +1,6 @@
+schedule SCHED01 ON 04/03/07 :
+job1
+job2 
+end 
+
+

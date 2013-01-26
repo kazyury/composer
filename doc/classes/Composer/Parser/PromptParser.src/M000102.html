@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>parse (Composer::Parser::PromptParser)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File parser/prompt_parser82.rb, line 6</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">fname</span>)
+    <span class="ruby-ivar">@logger</span>=<span class="ruby-operator">::</span><span class="ruby-constant">Composer</span><span class="ruby-operator">::</span><span class="ruby-constant">SingletonLogger</span>.<span class="ruby-identifier">instance</span>
+
+    <span class="ruby-ivar">@prompts</span>=[]
+    <span class="ruby-ivar">@prompt</span>=<span class="ruby-operator">::</span><span class="ruby-constant">Composer</span><span class="ruby-operator">::</span><span class="ruby-constant">TwsObj</span><span class="ruby-operator">::</span><span class="ruby-constant">Prompt</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-identifier">scanner</span>=<span class="ruby-operator">::</span><span class="ruby-constant">Composer</span><span class="ruby-operator">::</span><span class="ruby-constant">Scanner</span><span class="ruby-operator">::</span><span class="ruby-constant">GenericScanner</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">fname</span>,<span class="ruby-keyword kw">self</span>)
+
+    <span class="ruby-comment cmt"># scannerを設定</span>
+    <span class="ruby-identifier">scanner</span>.<span class="ruby-identifier">declare</span>=<span class="ruby-regexp re">/\A\$prompt/i</span>
+    <span class="ruby-identifier">scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A\s/</span>)
+    <span class="ruby-identifier">scanner</span>.<span class="ruby-identifier">builtin_token</span>(<span class="ruby-identifier">:WORD</span>)
+    <span class="ruby-identifier">scanner</span>.<span class="ruby-identifier">builtin_token</span>(<span class="ruby-identifier">:STRING</span>)
+    <span class="ruby-identifier">yyparse</span>(<span class="ruby-identifier">scanner</span>, <span class="ruby-identifier">:scan</span>)
+    { <span class="ruby-identifier">:prompts</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@prompts</span> }
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

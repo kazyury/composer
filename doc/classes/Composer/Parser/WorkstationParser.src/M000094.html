@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>parse (Composer::Parser::WorkstationParser)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File parser/workstation_parser82.rb, line 6</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">fname</span>)
+    <span class="ruby-ivar">@logger</span>=<span class="ruby-operator">::</span><span class="ruby-constant">Composer</span><span class="ruby-operator">::</span><span class="ruby-constant">SingletonLogger</span>.<span class="ruby-identifier">instance</span>
+
+    <span class="ruby-ivar">@cpunames</span>=[]
+    <span class="ruby-ivar">@cpuclasses</span>=[]
+    <span class="ruby-ivar">@domains</span>=[]
+    <span class="ruby-ivar">@cpuname</span>=<span class="ruby-operator">::</span><span class="ruby-constant">Composer</span><span class="ruby-operator">::</span><span class="ruby-constant">TwsObj</span><span class="ruby-operator">::</span><span class="ruby-constant">CpuName</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-ivar">@cpuclass</span>=<span class="ruby-operator">::</span><span class="ruby-constant">Composer</span><span class="ruby-operator">::</span><span class="ruby-constant">TwsObj</span><span class="ruby-operator">::</span><span class="ruby-constant">CpuClass</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-ivar">@domain</span>=<span class="ruby-operator">::</span><span class="ruby-constant">Composer</span><span class="ruby-operator">::</span><span class="ruby-constant">TwsObj</span><span class="ruby-operator">::</span><span class="ruby-constant">Domain</span>.<span class="ruby-identifier">new</span>
+
+    <span class="ruby-ivar">@hostname_buffer</span>=<span class="ruby-value str">&quot;&quot;</span>
+    <span class="ruby-identifier">scanner</span>=<span class="ruby-operator">::</span><span class="ruby-constant">Composer</span><span class="ruby-operator">::</span><span class="ruby-constant">Scanner</span><span class="ruby-operator">::</span><span class="ruby-constant">GenericScanner</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">fname</span>,<span class="ruby-keyword kw">self</span>)
+    
+    <span class="ruby-comment cmt"># scannerを設定</span>
+    <span class="ruby-identifier">scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A\s/</span>)
+    <span class="ruby-identifier">scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A\#.*?$/</span>)   <span class="ruby-comment cmt"># #から行末まで読み飛ばし</span>
+    <span class="ruby-identifier">scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A\./</span>                ,<span class="ruby-value str">'.'</span>)
+    <span class="ruby-identifier">scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A\@/</span>                ,<span class="ruby-value str">'@'</span>)
+    <span class="ruby-identifier">scanner</span>.<span class="ruby-identifier">reserved_word</span>(<span class="ruby-keyword kw">false</span>,<span class="ruby-value str">&quot;CPUNAME&quot;</span>, <span class="ruby-value str">&quot;CPUCLASS&quot;</span>, <span class="ruby-value str">&quot;DOMAIN&quot;</span>, <span class="ruby-value str">&quot;DESCRIPTION&quot;</span>, <span class="ruby-value str">&quot;OS&quot;</span>, <span class="ruby-value str">&quot;NODE&quot;</span>, <span class="ruby-value str">&quot;TCPADDR&quot;</span>, <span class="ruby-value str">&quot;SECUREADDR&quot;</span>, <span class="ruby-value str">&quot;TIMEZONE&quot;</span>, <span class="ruby-value str">&quot;FOR&quot;</span>)
+    <span class="ruby-identifier">scanner</span>.<span class="ruby-identifier">reserved_word</span>(<span class="ruby-keyword kw">false</span>,<span class="ruby-value str">&quot;MAESTRO&quot;</span>, <span class="ruby-value str">&quot;HOST&quot;</span>, <span class="ruby-value str">&quot;ACCESS&quot;</span>, <span class="ruby-value str">&quot;TYPE&quot;</span>, <span class="ruby-value str">&quot;IGNORE&quot;</span>, <span class="ruby-value str">&quot;AUTOLINK&quot;</span>, <span class="ruby-value str">&quot;FULLSTATUS&quot;</span>, <span class="ruby-value str">&quot;RESOLVEDEP&quot;</span>, <span class="ruby-value str">&quot;SERVER&quot;</span>, <span class="ruby-value str">&quot;MEMBERS&quot;</span>, <span class="ruby-value str">&quot;MANAGER&quot;</span>)
+    <span class="ruby-identifier">scanner</span>.<span class="ruby-identifier">reserved_word</span>(<span class="ruby-keyword kw">false</span>,<span class="ruby-value str">&quot;PARENT&quot;</span>, <span class="ruby-value str">&quot;BEHINDFIREWALL&quot;</span>, <span class="ruby-value str">&quot;SECURITYLEVEL&quot;</span>)
+    <span class="ruby-identifier">scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A(tz)[^\w-]/i</span>,<span class="ruby-identifier">:TIMEZONE</span>,<span class="ruby-keyword kw">true</span>)
+    <span class="ruby-identifier">scanner</span>.<span class="ruby-identifier">append_tokens</span>(<span class="ruby-regexp re">/\A(end)[^\w-]/i</span>,<span class="ruby-identifier">:ENDSTMT</span>,<span class="ruby-keyword kw">true</span>)
+    <span class="ruby-identifier">scanner</span>.<span class="ruby-identifier">builtin_token</span>(<span class="ruby-identifier">:WORD</span>)
+    <span class="ruby-identifier">scanner</span>.<span class="ruby-identifier">builtin_token</span>(<span class="ruby-identifier">:STRING</span>)
+    <span class="ruby-identifier">scanner</span>.<span class="ruby-identifier">builtin_token</span>(<span class="ruby-identifier">:PATH</span>)
+
+    <span class="ruby-identifier">yyparse</span>(<span class="ruby-identifier">scanner</span>, <span class="ruby-identifier">:scan</span>)
+    { <span class="ruby-identifier">:cpunames</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@cpunames</span>, 
+      <span class="ruby-identifier">:cpuclasses</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@cpuclasses</span>, 
+      <span class="ruby-identifier">:domains</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@domains</span> }
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

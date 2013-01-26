@@ -1,0 +1,4 @@
+schedule sked3 on mo :
+  joba  at 2230  every 0015  until 2330
+end 
+

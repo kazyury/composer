@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>on_setup (Composer::Face::StreamPlan)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File face/stream_plan/stream_plan.rb, line 36</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">on_setup</span>
+      <span class="ruby-comment cmt">#出力ファイルのフルパスを取得。</span>
+      <span class="ruby-comment cmt">#WIN32OLEから、Scripting.FileSystemObjectを得て、</span>
+      <span class="ruby-comment cmt">#GetAbsolutePathNameでWindows上のフルパスを取得する。</span>
+      <span class="ruby-identifier">fso</span>=<span class="ruby-constant">WIN32OLE</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">'Scripting.FileSystemObject'</span>)
+      <span class="ruby-ivar">@outfile</span> =<span class="ruby-identifier">fso</span>.<span class="ruby-constant">GetAbsolutePathName</span>(<span class="ruby-node">&quot;#{@outfiles_dir}/stream_plan.xls&quot;</span>)
+      <span class="ruby-ivar">@template</span>=<span class="ruby-identifier">fso</span>.<span class="ruby-constant">GetAbsolutePathName</span>(<span class="ruby-node">&quot;#{@my_dir}/template.xlt&quot;</span>)
+      <span class="ruby-ivar">@fromdate</span>=<span class="ruby-keyword kw">nil</span>
+      <span class="ruby-ivar">@todate</span>=<span class="ruby-keyword kw">nil</span>
+      <span class="ruby-ivar">@months_to_create</span>=[]
+      <span class="ruby-ivar">@stream_planned_dates</span>={}
+      <span class="ruby-ivar">@visible</span>=<span class="ruby-keyword kw">false</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

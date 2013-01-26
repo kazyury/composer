@@ -1,0 +1,7 @@
+name,description,date
+<% calendars.each do |cal| -%>
+<%   cal.dateformat='%y/%m/%d' -%>
+<%   cal.dates.each do |d| -%>
+<%= cal.name %>,<%= cal.description %>,"<%= d %>"
+<%   end -%>
+<% end -%>

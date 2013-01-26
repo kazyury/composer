@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Composer::Face::Jobnet</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Composer::Face::Jobnet</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/face/jobnet/jobnet_rb.html">
+                face/jobnet/jobnet.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1><a href="Jobnet.html">Jobnet</a></h1>
+<p>
+解析したジョブストリームのFOLLOWSを元に、ジョブストリーム間の依存関係を<a
+href="Jobnet.html">Jobnet</a>図として視覚化する。
+視覚化する際にはgraphvizがインストールされていることが前提となる。
+</p>
+<h3>graphviz公式サイト(<a href="http://www.graphviz.org">www.graphviz.org</a>/)</h3>
+<p>
+graphvizはCPL(Common Public License)に従って配布されている。
+当バージョンでの稼動確認環境は、
+</p>
+<pre>
+ dot - Graphviz version 2.12 (Mon Dec  4 22:04:37 UTC 2006)
+</pre>
+<p>
+当<a href="../Face.html">Face</a>では以下の設定が可能。
+</p>
+<ul>
+<li>デフォルトの出力形式はsvgであるが、outformat=(str)
+メソッドにて出力形式を指定することが可能。
+選択可能な出力形式はgraphvizの仕様に従う。(例. jpg, gif, ps 等々)
+
+</li>
+<li>出力対象のジョブストリームを、ワークステーション名、ストリーム名にてフィルタリングすることが可能。
+(wkstation_filter=(str),stream_filter=(str))
+
+</li>
+<li>SCHEDULEにてON句としてREQUESTのみが定義されているストリームを出力対象とするか否か。
+(draw_only_request=(bool) true:出力する。false:出力しない。)
+
+</li>
+</ul>
+<h2>例.</h2>
+<pre>
+  frontend.face='jobnet'                               #=&gt; faceとしてJobnetを使用。
+  frontend.prepare(:outformat=,'jpg')                  #=&gt; 出力ファイルフォーマットはJPG(デフォルトはsvg)
+  frontend.prepare(:wkstation_filter=,'RV00000')       #=&gt; ワークステーション名がRV00000から始まるもののみを出力(デフォルトは全て)
+  frontend.prepare(:stream_filter=,'STR_(A|B|C)\w')    #=&gt; ストリーム名がSTR_から始まり、その後A又はB又はC　が続き、その後の文字も英数字であるもの(デフォルトは全て)
+  frontend.prepare(:draw_only_request=,true)           #=&gt; ON句がREQUESTのみのストリームも出力する(ただし、破線で出力)。(デフォルトは出力しない)
+  frontend.convert                                     #=&gt; outfiles/jobnet.dot 及び、 outfiles/jobnet.svg が出力される。
+</pre>
+<h2>描画内容</h2>
+<ul>
+<li>ジョブストリームは、四角形にて表現する。
+
+</li>
+<li>ジョブストリーム間に依存関係がある場合には、先行ジョブストリームから、後行ジョブストリームに向けた→で表現する。
+
+</li>
+<li>ジョブストリームを表現する四角形内部には、基本的には　&quot;ストリーム名(改行)@ワークステーション名&quot;　を出力する。
+ただし、ワークステーション名又はストリーム名で先行ジョブストリームがフィルタリングされている場合、その先行ジョブストリームは
+&quot;ワークステーション名#ストリーム名&quot;で表現する。
+
+</li>
+<li>AT句、UNTIL句、DEADLINE句が指定されたジョブストリームには、それぞれ a HHMM
+u HHMM d HHMM をその名称に追加で出力する。
+
+</li>
+<li>ON句がREQUESTのみのジョブストリームは破線で表現する。(draw_only_request=trueの場合のみ)
+
+</li>
+</ul>
+<h2>依存関係</h2>
+<ul>
+<li>graphvizがインストールされているマシン上で実行すること。(graphvizがインストールされていない場合、dotファイルのみをoutfilesディレクトリに出力)
+
+</li>
+<li>Scheduleがparseされていること
+
+</li>
+</ul>
+<h2>注意点</h2>
+<p>
+大量のストリーム(約7,000ストリーム)を画像ファイル化する際には、非常に大量のメモリ(1Gのメモリでも不足した。)を要求するため、
+デフォルトの出力形式を比較的小さなメモリしか要求しないsvg形式としている。
+ただし、使用しているSVG
+viewerによっては大きなsvgファイルを参照できない場合があるので注意。
+</p>
+<p>
+( 参考- SVG viewer )
+</p>
+<ul>
+<li>Inkscape ( 公式サイト <a
+href="http://www.inkscape.org">www.inkscape.org</a>/ ) :
+スタンドアロンのSVG Viewer
+
+</li>
+<li>Adobe SVG Viewer ( 公式サイト <a
+href="http://www.adobe.com/jp/svg">www.adobe.com/jp/svg</a>/ ) :
+Webブラウザ(IE)のplugin
+
+</li>
+<li>Mozilla Firefox ( 公式サイト <a
+href="http://www.mozilla.com/en-US">www.mozilla.com/en-US</a>/ ) :
+Webブラウザ
+
+</li>
+</ul>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000062">on_exiting</a>&nbsp;&nbsp;
+      <a href="#M000061">on_setup</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name"><a href="../BaseMake.html">Composer::BaseMake</a></span>
+      </div>
+    </div>
+
+    <div id="section">
+
+
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">draw_only_request</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+デフォルトはfalse。trueを設定した場合には、REQUESTしかON句に指定されていないストリームも出力対象とする。
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">outformat</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+デフォルトは&quot;svg&quot;。出力ファイルフォーマットを示す文字列を設定する。
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">stream_filter</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+デフォルトはnil。何らかの文字を設定した場合、ストリーム名の先頭から指定された文字(を正規表現としてあつかい)にマッチするストリームのみを出力対象とする。
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">wkstation_filter</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+デフォルトはnil。何らかの文字を設定した場合、ワークステーション名の先頭から指定された文字(を正規表現としてあつかい)にマッチするストリームのみを出力対象とする。
+
+</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000062" class="method-detail">
+        <a name="M000062"></a>
+
+        <div class="method-heading">
+          <a href="Jobnet.src/M000062.html" target="Code" class="method-signature"
+            onclick="popupCode('Jobnet.src/M000062.html');return false;">
+          <span class="method-name">on_exiting</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000061" class="method-detail">
+        <a name="M000061"></a>
+
+        <div class="method-heading">
+          <a href="Jobnet.src/M000061.html" target="Code" class="method-signature"
+            onclick="popupCode('Jobnet.src/M000061.html');return false;">
+          <span class="method-name">on_setup</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

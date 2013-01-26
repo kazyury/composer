@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: UserInterface</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">UserInterface</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/composer_face_rb.html">
+                composer_face.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1><a href="UserInterface.html">UserInterface</a></h1>
+<p>
+デフォルトのUI。CUI環境から実行することを想定している。
+(なお、Win32Binary版を使用している方は、以降の記述で、ruby composer_face.rb
+と記述している箇所を composer_face.exe と読み替えてください。)
+</p>
+<h2>composer_face, HOW TO USE ?</h2>
+<p>
+何もオプションを与えずに実行するとUsage表示
+</p>
+<pre>
+ D:\sasaki\RubyScript\composer&gt;ruby composer_face.rb
+ composer_face [-x|-y] configuration
+
+ / change your TWS composer's face.
+    -x, --use_XML                    Force to process configuration as XML.
+    -y, --use_YAML                   Force to process configuration as YAML.
+    -h, --help                       Show this message
+</pre>
+<p>
+実行する際には、xml形式又はyaml形式の構成ファイルを指定する。(suffixにて自動判断。suffixが.yaml
+,.xml で無い場合には、-x 又は -y オプションを使用する必要がある。)
+</p>
+<dl>
+<dt> xml形式の構成ファイルを使用する場合 </dt><dd>C:\home\RubyScript\composer&gt;ruby composer_face.rb sample_config.xml I,
+[2008-08-02T01:04:28.296000 4100] INFO &#8212; <a
+href="Composer/FrontEnd.html">Composer::FrontEnd</a>: original KCODE was
+SJIS :(snip)
+
+</dd>
+</dl>
+<p>
+or
+</p>
+<dl>
+<dt> yaml形式の構成ファイルを使用する場合 </dt><dd>C:\home\RubyScript\composer&gt;ruby composer_face.rb sample_config.yaml I,
+[2008-08-02T01:05:27.343000 5388] INFO &#8212; <a
+href="Composer/FrontEnd.html">Composer::FrontEnd</a>: original KCODE was
+SJIS :(snip)
+
+</dd>
+</dl>
+<h2>構成ファイルの書式</h2>
+<p>
+構成ファイルは、YAML形式、XML形式を使用することができます。好きな方の形式を使用して下さい。機能的な差異はありません。
+</p>
+<h3>YAML形式の構成ファイル書式</h3>
+<p>
+YAML仕様の詳細についてはWeb等を参照してください。恐らくなじみの無い方が多いでしょう。
+XML形式よりは柔軟な設定がしやすいため、yaml形式も採用しています。
+</p>
+<pre>
+ YAML Specification
+ &lt;URL:http://www.yaml.org/spec/&gt;
+ &lt;URL:http://www.yaml.org/type/&gt;
+</pre>
+<h4>Sample</h4>
+<pre>
+ C:\home\RubyScript\composer&gt;cat sample_config.yaml
+ ---
+ calendars: test\testdata\calendar_parser.in.0001
+ jobs: test\testdata\job_parser.in.0001
+ parameters: test\testdata\parameter_parser.in.0001
+ prompts: test\testdata\prompt_parser.in.0001
+ resources: test\testdata\resource_parser.in.0001
+ schedules: test\testdata\schedule_parser.in.0001
+ workstations: test\testdata\workstation_parser.in.0001
+ faces:
+   - face: default_face
+   - face: stream_plan
+     prep:
+     -  - range_set
+        - &quot;2006-01-01&quot;
+        - &quot;2006-02-01&quot;
+   - face: jobnet
+     prep:
+     -  - outformat=
+        - svg
+     -  - stream_filter=
+        - S2_(JBA[^U]|JBT|JBI|JBX)
+     -  - draw_only_request=
+        - false
+ log_level: 1
+ use_cache: true
+</pre>
+<h4>Description</h4>
+<p>
+yaml形式の構成ファイルは、総体としてはHashの形式になっています。
+HashのKeyとValueとして期待している形式は以下のとおりです。
+</p>
+<ul>
+<li>calendars:
+CALENDAR定義情報ファイルへのパスを文字列として表現していることを期待
+
+</li>
+<li>jobs: JOB定義情報ファイルへのパスを文字列として表現していることを期待
+
+</li>
+<li>parameters:
+PARAMETER定義情報ファイルへのパスを文字列として表現していることを期待
+
+</li>
+<li>prompts:
+PROMPTS定義情報ファイルへのパスを文字列として表現していることを期待
+
+</li>
+<li>resources:
+RESOURCES定義情報ファイルへのパスを文字列として表現していることを期待
+
+</li>
+<li>schedules:
+SCHEDULES定義情報ファイルへのパスを文字列として表現していることを期待
+
+</li>
+<li>workstations:
+WORKSTATIONS定義情報ファイルへのパスを文字列として表現していることを期待
+
+</li>
+<li>log_level: 0-4の数値を期待。 composer_face全体を通したログレベルの指定。
+0(debug) &gt; 1(info) &gt; 2(warn) &gt; 3(error) &gt; 4(fatal)
+の順にログ情報が抑制され、fatalを指定すると一切の情報を抑制する。お勧めは2(警告以上を印字)
+
+</li>
+<li>use_cache: true 又は false を期待。
+trueが指定されている場合、Composerが出力した各定義情報ファイルの解析結果を(使用可能ならば)解析済みのオブジェクトで代替する。
+(trueを推奨) 使用可能である条件は以下のとおり。
+
+<ul>
+<li>既に解析済みの情報がcacheされていること。
+
+</li>
+<li>既に解析済みの情報と、今回指定した定義情報の内容が同一であること。
+
+</li>
+</ul>
+</li>
+<li>faces:
+出力に使用するface(faceとprepをKeyとして持つHash)の配列を期待。faces以下に格納されたfaceを順に出力する。
+
+<ul>
+<li>face:
+出力に使用するfaceの名称を文字列で指定します。どのようなfaceが使用可能かは、faceディレクトリ以下を参照してください。
+組み込みのfaceについては、以下の3種のいずれかです。
+
+<ul>
+<li>default_face
+
+</li>
+<li>stream_plan
+
+</li>
+<li>jobnet
+
+</li>
+</ul>
+</li>
+<li>prep:
+faceの出力開始前にfaceオブジェクトに与える事前準備情報を、メソッド名、引数×nの順に指定します。
+ここは、いずれのfaceを使用するかにより異なってきます。組み込みFaceのうち、default_faceはprepを要しませんが、stream_planはrange_setが必ず必要です。
+また、jobnetは最大4つのprepを指定できますが、何れも必須ではありません。詳細は各Faceの説明を参考にしてください。
+
+<ul>
+<li><a href="Composer/Face/DefaultFace.html">Composer::Face::DefaultFace</a>
+
+</li>
+<li><a href="Composer/Face/StreamPlan.html">Composer::Face::StreamPlan</a>
+
+</li>
+<li><a href="Composer/Face/Jobnet.html">Composer::Face::Jobnet</a>
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>XML形式の構成ファイル書式</h3>
+<p>
+開発当初は、構成ファイルとしてYAML形式のみを採用していましたが、
+データの入れ子関係の分かりやすさ、メンテしやすさ(打鍵量は別として)、認知度を考慮して、
+XML形式の構成ファイルも処理可能としました。
+</p>
+<h4>Sample</h4>
+<pre>
+ C:\home\RubyScript\composer&gt;cat sample_config.xml
+ &lt;?xml version=&quot;1.0&quot; encoding=&quot;Shift_JIS&quot; ?&gt;
+ &lt;config&gt;
+   &lt;log_level    value=&quot;1&quot; /&gt;
+   &lt;use_cache    value=&quot;true&quot; /&gt;
+   &lt;calendars    value=&quot;test\\testdata\\calendar_parser.in.0001&quot; /&gt;
+   &lt;jobs         value=&quot;test\\testdata\\job_parser.in.0001&quot; /&gt;
+   &lt;parameters   value=&quot;test\\testdata\\parameter_parser.in.0001&quot; /&gt;
+   &lt;prompts      value=&quot;test\\testdata\\prompt_parser.in.0001&quot; /&gt;
+   &lt;resources    value=&quot;test\\testdata\\resource_parser.in.0001&quot; /&gt;
+   &lt;schedules    value=&quot;test\\testdata\\schedule_parser.in.0001&quot; /&gt;
+   &lt;workstations value=&quot;test\\testdata\\workstation_parser.in.0001&quot; /&gt;
+   &lt;faces&gt;
+     &lt;face value=&quot;default_face&quot;&gt;&lt;/face&gt;
+     &lt;face value=&quot;stream_plan&quot;&gt;
+       &lt;prep method=&quot;range_set&quot; values=&quot;2006-01-01 2006-02-01&quot; /&gt;
+     &lt;/face&gt;
+     &lt;face value=&quot;jobnet&quot;&gt;
+       &lt;prep method=&quot;outformat=&quot;         values=&quot;svg&quot; /&gt;
+       &lt;prep method=&quot;stream_filter=&quot;     values=&quot;S2_(JBA[^U]|JBT|JBI|JBX)&quot; /&gt;
+       &lt;prep method=&quot;draw_only_request=&quot; values=&quot;false&quot; /&gt;
+     &lt;/face&gt;
+   &lt;/faces&gt;
+ &lt;/config&gt;
+</pre>
+<h4>Description</h4>
+<p>
+見れば分かるというかたも多いかと思いますので、詳細は割愛します。
+</p>
+<h4>Meanings&#8230;</h4>
+<p>
+上記2種のサンプル構成ファイルの意味は以下のようになります。
+</p>
+<ol>
+<li>calendars,jobs,parameters,prompts,resources,schedules,workstations
+の定義情報は各々指定されたパスのファイルを使用する。
+
+</li>
+<li>上記ファイルの解析結果を用いて、3種類のfaceで出力する。
+
+</li>
+<li>最初に、&#8217;default_face&#8217;を用いて出力する。特に、出力前の準備(prep:)無し。
+
+</li>
+<li>次に&#8217;stream_plan&#8217;を用いて出力する。出力前の準備(prep:)としてStreamPlanのrange_setメソッドに引数2006-01-01,2006-02-01を渡す。
+
+</li>
+<li>最後に&#8217;jobnet&#8217;を用いて出力する。出力前の準備(prep:)として
+
+<ul>
+<li>出力ファイルフォーマット(outformat=)をsvgに設定
+
+</li>
+<li>対象ジョブストリームを、S2_JBAUを除くS2_JBA始まり、S2_JBT.*、S2_JBI.*、S2_JBX.*のみにフィルタリング(stream_filter=)
+
+</li>
+<li>出力対象として、REQUESTのみのジョブストリームは対象としない。(draw_only_request=
+&quot;false&quot;)
+
+</li>
+</ul>
+</li>
+<li>全体としてログレベルは2(Warningは出力)
+
+</li>
+<li>キャッシュを使用可能ならば使用する。
+
+</li>
+</ol>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000001">guess_format_and_run</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name"><a href="Composer.html">Composer</a></span>
+      </div>
+    </div>
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000001" class="method-detail">
+        <a name="M000001"></a>
+
+        <div class="method-heading">
+          <a href="UserInterface.src/M000001.html" target="Code" class="method-signature"
+            onclick="popupCode('UserInterface.src/M000001.html');return false;">
+          <span class="method-name">guess_format_and_run</span><span class="method-args">(confpath)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

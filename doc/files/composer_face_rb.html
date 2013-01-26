@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: composer_face.rb</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>composer_face.rb</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>composer_face.rb
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Sat Aug 02 02:07:06 東京 (標準時) 2008</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1>composer_face</h1>
+<h2>Introduction</h2>
+<p>
+composer_faceは、Tivoli Workload Scheduler(以降、TWS)の<a
+href="../classes/Composer.html">Composer</a>プログラムにて
+createコマンドを発行して作成されるファイルの内容を解析し、他の表現形式に(比較的)容易に変換可能とするツールです。
+</p>
+<p>
+当ツールの構成は大きく以下の様に分類されます。
+</p>
+<ol>
+<li>ユーザーインタフェース部
+
+</li>
+<li><a href="../classes/Composer.html">Composer</a>ファイル解析部
+
+</li>
+<li>解析結果の表現形式変換部
+
+</li>
+</ol>
+<p>
+上記のうち、3.の表現形式変換部は差し替え可能となっており、#{path}/face/以下にユーザープログラムを配置することで、表現形式を切り替えることが出来ます。
+この表現形式のことを、composer_face内では、 Face と呼称します。 (詳細は <a
+href="../classes/Composer/BaseMake.html">Composer::BaseMake</a>
+を参照してください。)
+</p>
+<p>
+使用しているバージョンで組み込まれているFaceについては、Composer::BaseMake
+を参照してください。
+</p>
+<h2>Tutorial</h2>
+<ul>
+<li>まずは使ってみる。 &#8212;&gt; <a
+href="../classes/UserInterface.html">UserInterface</a> を参照してください。
+
+</li>
+<li>ユーザー定義Faceを作成する。 &#8212;&gt; <a
+href="../classes/Composer/BaseMake.html">Composer::BaseMake</a>
+を参照してください。
+
+</li>
+<li>このツールをhackする。 &#8212;&gt; <a
+href="../classes/Composer/FrontEnd.html">Composer::FrontEnd</a>
+を取っ掛かりとし各クラスのソースを確認してください。(privateメソッドやユーザー定義Faceを作成するには不要なメソッドはRdoc対象から外しています。)
+
+</li>
+</ul>
+<h2>稼動要件</h2>
+<ul>
+<li>Windows実行バイナリ形式(composer_face.exe)を使用する場合
+
+<ul>
+<li>Faceとしてstream_plan を使用する場合、Windows PC上にMicrosoft
+Excelがインストールされていて使用可能である必要が有ります。
+
+</li>
+</ul>
+</li>
+<li>ソースコード(composer_face.rb)を使用する場合
+
+<ul>
+<li>実行マシン上にて、rubyがインストールされていて使用可能である必要があります。(V1.8.1以上にて動作確認)
+
+</li>
+<li>rubyに標準添付されているライブラリが使用可能である必要があります。(V1.8.1以上ならば添付されている筈です。詳しくは、composer_face.exy
+ファイルを参照してください。)
+
+</li>
+</ul>
+</li>
+</ul>
+<h2>前提事項</h2>
+<ul>
+<li>このバージョンのcomposer_faceは、TWSの以下のリファレンスに従い実装されています。同バージョン以外では動作の確認は行っておりませんのでご了承ください。
+
+<pre>
+     [ SC88-9680-01 ]リファレンス・ガイド V8.2
+     バージョン 8.2 (2004 年 12 月改訂)
+     IBM Tivoli Workload Scheduler バージョン 8、リリース 2、モディフィケーション・レベル 0 (プログラム番号 5698-WSH)
+</pre>
+</li>
+</ul>
+<h2>Author</h2>
+<p>
+Kazunori Sasaki(kasasa@jp.ibm.com)
+</p>
+<p>
+version=0.92(beta)
+</p>
+<h2>Todo</h2>
+<ul>
+<li>TWSのバージョン変更に伴うスキャナ、パーサの切り替えを実装
+
+</li>
+<li>StreamPlan#expand_dates
+でカレンダーのオフセットとしてWEEKDAYS,WORKDAYSが指定されたときの挙動が未実装となっている。
+
+</li>
+<li>休日カレンダーの取り扱いを整理する。StreamPlanではON-Exceptをしているだけ。何が正しいの？？？
+
+</li>
+<li>USERNAME も一応やらなくちゃ。
+
+</li>
+<li>各parser.yの中のアクションで、とり得る値のチェックをもう少し厳密に。
+
+</li>
+<li>erbファイル中でマクロ展開のようなことができるとより便利かも。
+
+</li>
+</ul>
+<h2>Done</h2>
+<ul>
+<li>2008/11/15 パッケージングツールをrakeからantに変更
+
+</li>
+<li>2008/11/15 Jobnetを連結部分グラフに分割する、Subnet Faceを組み込み
+
+</li>
+<li>UI部分でYAML形式だけではなく、XML形式でも受け入れられる様に。
+
+</li>
+<li>StreamPlan#expand_dates
+でリテラルのWORKDAYS,FREEDAYSが指定されたときの挙動がEVERYDAYと同様になっている。
+
+</li>
+<li>JobNetを表現するFaceを組み込みに。(SVG?)
+
+</li>
+<li>Exerb化
+
+</li>
+<li>UIクラス(ComposerFace)をまじめに。
+
+</li>
+<li>ディレクトリ関連を整理する。(Exerb化を見越して)
+
+</li>
+<li>各スケジューリングオブジェクトのクラスに?付きメソッドを追加する。(&quot;ON&quot;はtrue,&quot;OFF&quot;はfalseとか。)
+
+</li>
+<li>parse済みの内容をキャッシュする機構を組み込む。
+
+</li>
+<li>UI部分はまだfrontend.rbの中に入っている。
+
+</li>
+<li>calendar
+でDATEを還元する際に、文字列(&quot;dd/mm/yy&quot;)のままでもつのではなく、数値(yyyymmdd)の形式で保持する。
+&#8212;&gt; offsetの計算とかが必要なので、かなり重量が増えるけど<a
+href="../classes/Date.html">Date</a>も別途保持
+
+</li>
+<li>formatterの切替え &#8212;&gt;
+例えば、配信計画(PublishPlan)をExcelでカレンダー形式で出力できるようにとか。
+
+</li>
+<li>frontendで入力ファイルの漢字コードを切り替えられるように。
+
+</li>
+<li>frontendでLoggerのlevelを切り替えるインタフェースを。
+
+</li>
+<li>reserved_tokens を、幅を考慮してもう少し整理する必要がある。
+
+</li>
+<li>create test cases.
+
+</li>
+<li>ScheduleのOPENSを他とあわせた管理方式に。(OpenFileとかのクラスを用意,@file_bufferにはそのOpenFileオブジェクトを格納)
+
+</li>
+<li>testcase/schedule0014 : weekdays が予約語とかぶっている&#8230;。
+
+</li>
+<li>scheduleからデータを拾うときのアクセス方法がとっても面倒。
+&#8212;&gt;APIをもう少し練る必要があるかな。(特に、JOB/ON等ネストが深いもの)
+
+</li>
+<li>残りのparser/template/struct作成 SCHED template / struct
+
+</li>
+<li>多分、job_parser.y(cpu?cpuclass?)も指定できる項目の順序が決まっていないような気がする。
+
+</li>
+<li>FREEDAYS, BEHINDFIREWALL, ONUNTIL がSCHEDに出てくるが、バージョン問題？
+
+</li>
+<li>SCHED のconflict をどうにかしたいんだけど&#8230;。
+
+</li>
+<li>loggerを組み込む(puts撲滅)
+
+</li>
+<li>schedule_parser.rb
+でQUALIFIERとしたい部分がPATHでマッチしてしまう。QUALIFIERの優先度を上げて、かつ範囲を絞る方向で。
+
+</li>
+<li>parser等で似たような処理を1つにまとめるように。
+
+</li>
+<li>Exception系を整理。(やっつけにならないように)
+
+</li>
+<li>frontend.rb内での似たような処理をrefactoring
+
+</li>
+<li>Template =&gt; ErbFormatter
+
+</li>
+<li>jobのテンプレートを作成
+
+</li>
+</ul>
+
+    </div>
+
+    <div id="requires-list">
+      <h3 class="section-bar">Required files</h3>
+
+      <div class="name-list">
+      yaml&nbsp;&nbsp;
+      rexml/document&nbsp;&nbsp;
+      optparse&nbsp;&nbsp;
+      <a href="frontend_rb.html">frontend</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

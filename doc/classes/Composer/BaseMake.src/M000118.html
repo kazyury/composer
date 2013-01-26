@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>multi_line_string (Composer::BaseMake)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File utils.rb, line 285</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">multi_line_string</span>(<span class="ruby-identifier">collection</span>,<span class="ruby-identifier">linewidth</span>=<span class="ruby-value">1</span>,<span class="ruby-identifier">separator</span>=<span class="ruby-value str">&quot;,&quot;</span>)
+      <span class="ruby-keyword kw">return</span> <span class="ruby-value str">''</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">collection</span>
+      <span class="ruby-identifier">collection</span>=<span class="ruby-identifier">collection</span>.<span class="ruby-identifier">dup</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">collection</span>.<span class="ruby-identifier">size</span><span class="ruby-operator">==</span><span class="ruby-value">1</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+          <span class="ruby-keyword kw">return</span>(<span class="ruby-keyword kw">yield</span> <span class="ruby-identifier">collection</span>.<span class="ruby-identifier">first</span>)
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">collection</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">to_s</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">column_buffer</span>=[]
+      <span class="ruby-identifier">record_buffer</span>=[]
+      <span class="ruby-keyword kw">until</span> <span class="ruby-identifier">collection</span>.<span class="ruby-identifier">empty?</span>
+        <span class="ruby-identifier">linewidth</span>.<span class="ruby-identifier">times</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">n</span><span class="ruby-operator">|</span>
+          <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">collection</span>.<span class="ruby-identifier">empty?</span>
+            <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+              <span class="ruby-identifier">column_buffer</span>.<span class="ruby-identifier">push</span>(<span class="ruby-keyword kw">yield</span>(<span class="ruby-identifier">collection</span>.<span class="ruby-identifier">shift</span>))
+            <span class="ruby-keyword kw">else</span>
+              <span class="ruby-identifier">column_buffer</span>.<span class="ruby-identifier">push</span> <span class="ruby-identifier">collection</span>.<span class="ruby-identifier">shift</span>.<span class="ruby-identifier">to_s</span>
+            <span class="ruby-keyword kw">end</span>
+          <span class="ruby-keyword kw">end</span>
+        }
+        <span class="ruby-identifier">record_buffer</span>.<span class="ruby-identifier">push</span> <span class="ruby-identifier">column_buffer</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">separator</span>)
+        <span class="ruby-identifier">column_buffer</span>=[]
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">return</span> <span class="ruby-value str">'&quot;'</span><span class="ruby-operator">+</span><span class="ruby-identifier">record_buffer</span>.<span class="ruby-identifier">join</span>(<span class="ruby-node">&quot;#{separator}\n&quot;</span>).<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp re">/&quot;/</span>,<span class="ruby-value str">'&quot;&quot;'</span>)<span class="ruby-operator">+</span><span class="ruby-value str">'&quot;'</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

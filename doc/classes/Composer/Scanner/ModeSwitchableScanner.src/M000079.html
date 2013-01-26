@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (Composer::Scanner::ModeSwitchableScanner)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File scanner/mode_switchable_scanner.rb, line 13</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">fname</span>,<span class="ruby-identifier">parser</span>)
+      <span class="ruby-keyword kw">super</span>
+      <span class="ruby-ivar">@mode</span>=<span class="ruby-identifier">:DEFAULT</span>
+      <span class="ruby-ivar">@mode_frame</span>={<span class="ruby-identifier">:DEFAULT=</span><span class="ruby-operator">&gt;</span>[]}
+      <span class="ruby-ivar">@mode_frame</span>.<span class="ruby-identifier">default</span>=[]
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,7 @@
+schedule SCHED01 ON MO,TU
+ON WE
+EXCEPT MO
+:
+job1
+job2 
+end 

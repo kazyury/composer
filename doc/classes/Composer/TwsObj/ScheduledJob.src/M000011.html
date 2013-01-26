@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>to_s (Composer::TwsObj::ScheduledJob)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File parser/schedule.rb, line 310</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_s</span>()
+      <span class="ruby-identifier">ret</span>=<span class="ruby-keyword kw">super</span>
+      <span class="ruby-identifier">ret</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">' AT '</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-ivar">@at</span>.<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">to_s</span>}.<span class="ruby-identifier">join</span>(<span class="ruby-value str">','</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@at</span>
+      <span class="ruby-identifier">ret</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">' KEYJOB'</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@keyjob</span>
+      <span class="ruby-identifier">ret</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">' PRIORITY '</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-ivar">@priority</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@priority</span>
+      <span class="ruby-identifier">ret</span>=<span class="ruby-value str">'&quot;'</span><span class="ruby-operator">+</span><span class="ruby-identifier">ret</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp re">/&quot;/</span>,<span class="ruby-value str">'&quot;&quot;'</span>)<span class="ruby-operator">+</span><span class="ruby-value str">'&quot;'</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@at</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>
+      <span class="ruby-identifier">ret</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

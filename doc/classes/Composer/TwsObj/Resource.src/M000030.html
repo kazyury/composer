@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>fullname (Composer::TwsObj::Resource)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File parser/resource.rb, line 31</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">fullname</span>()
+      <span class="ruby-identifier">wk</span>=<span class="ruby-ivar">@wkstation</span>
+      <span class="ruby-identifier">jo</span>=<span class="ruby-ivar">@name</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">wk</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">jo</span>
+        <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">wk</span><span class="ruby-operator">+</span><span class="ruby-value str">'#'</span><span class="ruby-operator">+</span><span class="ruby-identifier">jo</span>
+      <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">jo</span>
+        <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">jo</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+          <span class="ruby-identifier">val</span>=<span class="ruby-keyword kw">yield</span>
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">val</span>=<span class="ruby-value str">'_NO_ENTRY_'</span>
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-node">&quot;#{self.class}&quot;</span>){<span class="ruby-node">&quot;no name is specified. use [ #{val} ] instead.&quot;</span>}
+        <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">val</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

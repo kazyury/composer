@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>calculate (Composer::DateCalculater)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File utils.rb, line 328</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">calculate</span>
+      <span class="ruby-comment cmt">#on</span>
+      <span class="ruby-identifier">on_dates</span>=[]
+      <span class="ruby-ivar">@schedule</span>.<span class="ruby-identifier">on</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">sched_date</span><span class="ruby-operator">|</span> <span class="ruby-identifier">on_dates</span>.<span class="ruby-identifier">push</span> <span class="ruby-identifier">expand_dates</span>(<span class="ruby-identifier">sched_date</span>)}
+      <span class="ruby-identifier">on_dates</span>.<span class="ruby-identifier">flatten!</span>
+      <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;#{self.class}&quot;</span>){<span class="ruby-node">&quot;ON dates is [ #{on_dates.collect do |d| d.to_s end.join(' ')} ]&quot;</span>}
+
+      <span class="ruby-comment cmt">#except</span>
+      <span class="ruby-identifier">except_dates</span>=[]
+      <span class="ruby-ivar">@schedule</span>.<span class="ruby-identifier">except</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">sched_date</span><span class="ruby-operator">|</span> <span class="ruby-identifier">except_dates</span>.<span class="ruby-identifier">push</span> <span class="ruby-identifier">expand_dates</span>(<span class="ruby-identifier">sched_date</span>)}
+      <span class="ruby-identifier">except_dates</span>.<span class="ruby-identifier">flatten!</span>
+      <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;#{self.class}&quot;</span>){<span class="ruby-node">&quot;Except dates is [ #{except_dates.collect do |d| d.to_s end.join(' ')} ]&quot;</span>}
+
+      <span class="ruby-identifier">planned_dates</span>=<span class="ruby-identifier">on_dates</span><span class="ruby-operator">-</span><span class="ruby-identifier">except_dates</span>
+      <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;#{self.class}&quot;</span>){<span class="ruby-node">&quot;Planned dates is [ #{planned_dates.collect do |d| d.to_s end.join(' ')} ]&quot;</span>}
+      <span class="ruby-identifier">planned_dates</span>.<span class="ruby-identifier">sort</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

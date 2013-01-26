@@ -1,0 +1,4 @@
+$parm
+glpath     "/glfiles/daily"
+gllogon     "gluser"
+

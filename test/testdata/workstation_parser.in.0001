@@ -1,0 +1,11 @@
+cpuname hdq-1 description "Headquaters master DM"
+	os unix
+	tz pst
+	node sultan.ibm.com
+	domain masterdm
+	for maestro type fta
+		autolink   on
+		fullstatus on
+		resolvedep on
+end
+

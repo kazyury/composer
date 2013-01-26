@@ -1,0 +1,5 @@
+schedule sked8 on weekdays at 1600 deadline 1700 :
+   job1  at 1600 until 1620 onuntil cont
+   job2 at 1630 until 1650 onuntil canc
+end 
+

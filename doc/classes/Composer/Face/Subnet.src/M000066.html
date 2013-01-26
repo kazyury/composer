@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>graph_search (Composer::Face::Subnet)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File face/subnet/subnet.rb, line 101</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">graph_search</span>(<span class="ruby-identifier">buffer</span>,<span class="ruby-identifier">sched</span>)
+
+      <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>){<span class="ruby-node">&quot;graph_search with [#{buffer.join(',')}], #{sched}&quot;</span>}
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">sched</span> 
+        <span class="ruby-comment cmt"># 取ってくる対象が指定されていれば、@sourceより探して、取得する。</span>
+        <span class="ruby-comment cmt"># ここでくるschedは、実際にはComposer::TwsObj::Followなので、TwsObj::Scheduleに変換する。</span>
+        <span class="ruby-identifier">temp</span>=<span class="ruby-ivar">@source</span>.<span class="ruby-identifier">find</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">shortname</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">sched</span>.<span class="ruby-identifier">shortname</span>}
+        <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">temp</span>
+          <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>){<span class="ruby-node">&quot;#{sched.shortname} was not found.Ignored.&quot;</span>}
+          <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">buffer</span>
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-identifier">sched</span>=<span class="ruby-identifier">temp</span>
+      <span class="ruby-keyword kw">else</span> <span class="ruby-comment cmt"># 取ってくる対象が指定されていなければ、任意の1JSを取得する。</span>
+        <span class="ruby-identifier">sched</span>=<span class="ruby-ivar">@source</span>.<span class="ruby-identifier">shift</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">push</span> <span class="ruby-identifier">sched</span>
+      <span class="ruby-ivar">@source</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">sched</span>)
+      <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>){<span class="ruby-node">&quot;processing #{sched.shortname}&quot;</span>}
+
+      <span class="ruby-comment cmt"># JSがfollowしているものがあり、かつbufferに入っていない場合には、そのfollowしているものについて再帰的に取得</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">has_follows?</span>(<span class="ruby-identifier">sched</span>)
+        <span class="ruby-identifier">has_follows</span>(<span class="ruby-identifier">sched</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">n</span><span class="ruby-operator">|</span>
+          <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>){<span class="ruby-node">&quot;#{sched.shortname} follows #{n.shortname}&quot;</span>}
+          <span class="ruby-identifier">buffer</span>=<span class="ruby-identifier">graph_search</span>(<span class="ruby-identifier">buffer</span>,<span class="ruby-identifier">n</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">shortname</span>}.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">n</span>.<span class="ruby-identifier">shortname</span>)
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-comment cmt"># このJSにfollowしているものがあり、かつbufferに入っていない場合には、そのfollowしているものについて再帰的に取得</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">is_followed?</span>(<span class="ruby-identifier">sched</span>)
+        <span class="ruby-identifier">is_followed</span>(<span class="ruby-identifier">sched</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">n</span><span class="ruby-operator">|</span>
+          <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>){<span class="ruby-node">&quot;#{sched.shortname} is followed by #{n.shortname}&quot;</span>}
+          <span class="ruby-identifier">buffer</span>=<span class="ruby-identifier">graph_search</span>(<span class="ruby-identifier">buffer</span>,<span class="ruby-identifier">n</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">buffer</span>.<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">shortname</span>}.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">n</span>.<span class="ruby-identifier">shortname</span>)
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">buffer</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

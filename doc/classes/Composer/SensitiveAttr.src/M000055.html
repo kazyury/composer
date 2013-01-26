@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>sensitive_writer (Composer::SensitiveAttr)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File utils.rb, line 81</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">sensitive_writer</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">ivars</span>)
+      <span class="ruby-identifier">ivars</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ivar</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">module_eval</span> <span class="ruby-value str">&quot;def \#{ivar}=(var)\n@logger.warn(\\\&quot;\\\#{self.class}\\\&quot;){ \\\&quot;\#{ivar}[ \\\#{@\#{ivar}} ] is overridden by [ \\\#{var} ].\\\&quot;} if @\#{ivar}\n@\#{ivar}=var\nend\n&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

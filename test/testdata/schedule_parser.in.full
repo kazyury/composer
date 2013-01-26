@@ -1,0 +1,55 @@
+* this is full-path of 
+* schedule def test case.
+schedule twshost01#sched01
+	freedays GERMHOL -sa -su
+* dummy
+	on << DUMMY >>
+		mo,12/29/01 <<DUMMY>>fdnext
+	on fr fdprev
+	on monthend <<DUMMY>>-2 weekdays fdignore
+	deadline 1600 tz est + 1 day,2300
+	except monthend +2 weekdays,05/15/99 fdignore
+	except monthend fdprev
+	at 1000 + 1 day, 2300 timezone est +24 days
+	carryforward 
+	follows
+		site1#sked4 ,
+		site2#sked5.joba ,
+		cluster4::site4#skedx.jobx, 
+		sked6,
+		sked7.@
+	keysched
+	limit 6
+	needs 3 cputime, 2 tapes
+	opens
+		nt5#"c:\users\fred\datafiles\file88",
+		"/users"(-d %p/john -a -d %p/mary -a -d %p/roger),
+		/users/xpr/hp3000/send2(-n "`ls /users/xpr/hp3000/m*`" -o -r %p)
+	priority HI
+	prompt "no bugs, no life. do you continue?"
+	until 1700 tz est + 2 day onuntil CANC
+: << here, job statements starts! >>
+  job1  description "hello,world!" 
+		scriptname "d:\apps\maestro\scripts\jcljob1"
+    streamlogon jack
+		interactive
+		rccondsucc "(RC=3) OR ((RC<=5) AND (RC<10))"
+    recovery stop after cpu1#job01 abendprompt "continue production"
+		at 1000 + 1 day, 2300 tz est +24 days
+		confirmed
+		deadline 1600 + 1 day,2300
+		every 100 
+		follows
+			joba,
+			skeda.job3,
+			unix1#skedb.@
+		keyjob
+		needs 9 printers, cpu
+		opens dev3#"d:\work\john\execit1"(notempty)
+		priority GO
+		prompt "continue?"
+		until 1700 tz est + 2 day onuntil SUPPR
+end
+
+* this is 2nd schedule
+SCHEDULE sched02 on HOLIDAYS : job1 END

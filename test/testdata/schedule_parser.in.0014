@@ -1,0 +1,4 @@
+schedule sked2  on weekdays : 
+  job1  at 1300  until 1700
+end 
+

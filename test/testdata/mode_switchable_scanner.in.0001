@@ -1,0 +1,12 @@
+****************************************
+* The weekly cleanup jobs 
+****************************************
+*
+schedule wkend on fr at 1830
+carryforward
+:
+job1 <<final totals and reports>>
+* This comment is to be ignored
+job2 <<update database         >>
+end 
+

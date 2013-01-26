@@ -1,0 +1,9 @@
+schedule sked4 on mo :
+  job1  scriptname "d:\apps\maestro\scripts\jcljob1"
+    streamlogon jack
+    recovery stop abendprompt "continue production"
+  site1#job2  scriptname "d:\apps\maestro\scripts\jcljob2"
+    streamlogon jack
+    follows job1
+end
+

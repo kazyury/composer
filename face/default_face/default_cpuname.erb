@@ -1,0 +1,4 @@
+ignore?,workstation,os,node,tcpaddr,timezone,domain,host-workstation,access method,agent-type,autolink?,fullstatus?,resolvedep?,behind-firewall?,server
+<% cpunames.each do |cpu| -%>
+<%= yes_no(cpu.ignore) %>,<%= cpu.name %>,<%= cpu.os %>,<%= cpu.node %>,<%= cpu.tcpaddr %>,<%= cpu.timezone %>,<%= cpu.domain %>,<%= cpu.host %>,<%= cpu.access %>,<%= cpu.type %>,<%= yes_no(cpu.autolink) %>,<%= yes_no(cpu.fullstatus) %>,<%= yes_no(cpu.resolvedep) %>,<%= yes_no(cpu.behindfirewall) %>,<%= cpu.server %>
+<% end -%>

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Composer::TwsObj::Calendar</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Composer::TwsObj::Calendar</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/parser/calendar_rb.html">
+                parser/calendar.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1><a href="Calendar.html">Calendar</a></h1>
+<p>
+スケジューリングカレンダーを表現するクラス。
+</p>
+<p>
+属性としてカレンダー名(@name),説明(@description)を持つ。
+mm/dd/yy形式の日付(@date)への直接のアクセス手段は無く、@dateformatが未定義(nil)の場合に
+<a href="Calendar.html#M000049">Calendar#dates</a>メソッドにて取得できる。
+@dateformatに妥当なフォーマット文字列(Date#strftime,strftime(3),strptimeを参照)が指定されている
+場合には、Calendar#datesメソッドはその書式でフォーマットした文字列の配列(日付の古い順にソート)
+を返却する。
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000050">append_date</a>&nbsp;&nbsp;
+      <a href="#M000049">dates</a>&nbsp;&nbsp;
+      <a href="#M000048">new</a>&nbsp;&nbsp;
+      <a href="#M000051">set_enough?</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">date</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">date_internal</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">dateformat</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">description</td>
+          <td class="context-item-value">&nbsp;[W]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">description</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">name</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">name</td>
+          <td class="context-item-value">&nbsp;[W]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000048" class="method-detail">
+        <a name="M000048"></a>
+
+        <div class="method-heading">
+          <a href="Calendar.src/M000048.html" target="Code" class="method-signature"
+            onclick="popupCode('Calendar.src/M000048.html');return false;">
+          <span class="method-name">new</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000050" class="method-detail">
+        <a name="M000050"></a>
+
+        <div class="method-heading">
+          <a href="Calendar.src/M000050.html" target="Code" class="method-signature"
+            onclick="popupCode('Calendar.src/M000050.html');return false;">
+          <span class="method-name">append_date</span><span class="method-args">(mmddyy)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+@dateへのアクセサ。 通常の用途(<a
+href="../Face.html">Face</a>クラスの開発、Composerファイルの表現形式変更)では使用する必要が無い。
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000049" class="method-detail">
+        <a name="M000049"></a>
+
+        <div class="method-heading">
+          <a href="Calendar.src/M000049.html" target="Code" class="method-signature"
+            onclick="popupCode('Calendar.src/M000049.html');return false;">
+          <span class="method-name">dates</span><span class="method-args">() {|d| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+@dateへのアクセサ(reader)。 Calendar#dateformat=&#8217;format-string&#8217;
+でdateformatを定義している場合には、
+その書式を適用した日付を古い順にソートした配列で返却。
+</p>
+<pre>
+ as of 03/27/2007
+</pre>
+<ul>
+<li>%A: 曜日の名称(Sunday, Monday &#8230; )
+
+</li>
+<li>%a: 曜日の省略名(Sun, Mon &#8230; )
+
+</li>
+<li>%B: 月の名称(January, February &#8230; )
+
+</li>
+<li>%b: 月の省略名(Jan, Feb &#8230; )
+
+</li>
+<li>%c: 日付と時刻
+
+</li>
+<li>%d: 日(01-31)
+
+</li>
+<li>%H: 24時間制の時(00-23)
+
+</li>
+<li>%I: 12時間制の時(01-12)
+
+</li>
+<li>%j: 年中の通算日(001-366)
+
+</li>
+<li>%M: 分(00-59)
+
+</li>
+<li>%m: 月を表す数字(01-12)
+
+</li>
+<li>%p: 午前または午後(AM,PM)
+
+</li>
+<li>%S: 秒(00-60) (60はうるう秒)
+
+</li>
+<li>%U: 週を表す数。最初の日曜日が第1週の始まり(00-53)
+
+</li>
+<li>%W: 週を表す数。最初の月曜日が第1週の始まり(00-53)
+
+</li>
+<li>%w: 曜日を表す数。日曜日が0(0-6)
+
+</li>
+<li>%X: 時刻
+
+</li>
+<li>%x: 日付
+
+</li>
+<li>%Y: 西暦を表す数
+
+</li>
+<li>%y: 西暦の下2桁(00-99)
+
+</li>
+<li>%Z: タイムゾーン trap
+
+</li>
+<li>%%: %自身
+
+</li>
+</ul>
+<p>
+ブロックとともに使用した場合には、各日付(<a
+href="../../Date.html">Date</a>オブジェクト)をyieldする。
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000051" class="method-detail">
+        <a name="M000051"></a>
+
+        <div class="method-heading">
+          <a href="Calendar.src/M000051.html" target="Code" class="method-signature"
+            onclick="popupCode('Calendar.src/M000051.html');return false;">
+          <span class="method-name">set_enough?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+必須のカレンダー名,日付がセットされていればtrueを返却
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: Composer::BaseMake</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">Composer::BaseMake</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/utils_rb.html">
+                utils.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1><a href="BaseMake.html">BaseMake</a></h1>
+<p>
+<a
+href="../Composer.html">Composer</a>の表現形式を切り替えるためのベースモジュール。
+各Faceクラスはこのモジュールをincludeする必要がある。 <a
+href="BaseMake.html">BaseMake</a>をincludeすることにより、YourFaceClass#initializeが定義され、最低限必要な各種インスタンス変数がセットされる。
+</p>
+<h2>create my OWN FACE, HOW TO .</h2>
+<p>
+独自の<a
+href="Face.html">Face</a>クラスを作成するには以下の手順に従う必要がある。
+</p>
+<ol>
+<li>face ディレクトリ以下に、#{file_id}/#{file_id}.rb を作成する。
+composer_faceでfaceを指定する際には、この file_id を用いることとなる。
+
+<pre>
+ 例.
+ 'default_face' の場合には、default_face/default_face.rb を作成する。
+</pre>
+</li>
+<li>#{file_id}.rb内に #{face_class_id} クラスを定義する。名前空間は、 <a
+href="Face.html">Composer::Face</a> 以下。 face_class_id は file_id
+を元に、以下のルールにて変換した名称である必要がある。
+
+<ul>
+<li>file_id を&#8217;_&#8217;で分割する。
+
+</li>
+<li>分割後の各単語の先頭文字を大文字、残りを小文字にする。
+
+</li>
+<li>変換語の各文字を連結。
+
+</li>
+</ul>
+<pre>
+ 例.
+ default_face =&gt; default face =&gt; Default Face =&gt; DefaultFace
+</pre>
+</li>
+<li>#{face_class_id}クラスは、Composer::BaseMake をincludeする。
+
+</li>
+<li>#{face_class_id}クラスでは、initializeメソッドは定義&quot; <b>しない</b>
+&quot;
+
+</li>
+<li>#{face_class_id}クラスに、formatメソッドを定義&quot; <b>する</b> &quot;。
+このメソッドは、変換実行指示の際(<a
+href="FrontEnd.html#M000136">FrontEnd#convert</a>)時に呼び出される。
+
+</li>
+<li>#{face_class_id}オブジェクトの生成時に初期化処理が必要な場合には、on_setup
+メソッド(引数無し)を定義する。
+このメソッドは(定義されている場合には)initialize時に呼ばれる。
+
+</li>
+<li>変換処理の終了時に後処理が必要な場合には、on_exiting
+メソッド(引数無し)を定義する。
+このメソッドは(定義されている場合には)convert後に<a
+href="FrontEnd.html">FrontEnd</a>より呼ばれる。
+
+</li>
+<li>あとは、お好みで適宜のクラスを設計。
+
+</li>
+</ol>
+<p>
+その他の参考情報
+</p>
+<ol>
+<li>initialize 時に、@my_dir , @outfiles_dir が定義される。
+
+<table>
+<tr><td valign="top">@my_dir:</td><td>自ファイルの格納パス情報
+
+</td></tr>
+<tr><td valign="top">@outfiles_dir:</td><td>出力ファイルパス情報
+
+</td></tr>
+</table>
+<pre>
+ 例
+ DefaultFace の場合、@my_dir=#{BASE_DIR}/face/default_face
+ StreamPlan  の場合、@my_dir=#{BASE_DIR}/face/stream_plan
+</pre>
+</li>
+<li>initialize時に、@logger(<a
+href="SingletonLogger.html">Composer::SingletonLogger</a>
+インスタンス)が定義される。
+必要に応じて、@logger.warn等のメソッドを使用可能。 (<a
+href="SingletonLogger.html">Composer::SingletonLogger</a>
+はプロセス内でSingletonであることが保障された、LoggerへのDelegator(回りくどい説明だ&#8230;)。)
+
+</li>
+<li>解析結果の取得は、(self.)calendars , (self.)jobs 等を用いる。
+
+</li>
+<li>その他、Composer::BaseMake内で定義されているメソッドは適宜使用可能。
+
+</li>
+<li>face/default_face/default_face.rb , face/stream_plan/stream_plan.rb
+も参照のこと。
+
+</li>
+</ol>
+<h2>Built-in Faces.</h2>
+<table>
+<tr><td valign="top"><a href="Face/DefaultFace.html">Composer::Face::DefaultFace</a> :</td><td>デフォルトの組み込み<a
+href="Face.html">Face</a>。Erbを使用したシンプルなCSV出力。
+
+</td></tr>
+<tr><td valign="top"><a href="Face/StreamPlan.html">Composer::Face::StreamPlan</a> :</td><td>組み込み<a href="Face.html">Face</a>。Microsoft
+Excelを使用した、1ヶ月=1シートで全ジョブストリームの配信予定をCALENDAR,SCHEDULEの解析結果より出力。
+
+</td></tr>
+<tr><td valign="top"><a href="Face/Jobnet.html">Composer::Face::Jobnet</a> :</td><td>組み込み<a href="Face.html">Face</a>。graphviz(公式サイト <a
+href="http://www.graphviz.org">www.graphviz.org</a>/)
+を使用した、ジョブストリーム間の関係をビジュアルに出力(出力形式はgraphvizに依存)。
+
+</td></tr>
+</table>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000107">calendars</a>&nbsp;&nbsp;
+      <a href="#M000114">cpuclasses</a>&nbsp;&nbsp;
+      <a href="#M000113">cpunames</a>&nbsp;&nbsp;
+      <a href="#M000115">domains</a>&nbsp;&nbsp;
+      <a href="#M000108">jobs</a>&nbsp;&nbsp;
+      <a href="#M000118">multi_line_string</a>&nbsp;&nbsp;
+      <a href="#M000106">new</a>&nbsp;&nbsp;
+      <a href="#M000109">parameters</a>&nbsp;&nbsp;
+      <a href="#M000110">prompts</a>&nbsp;&nbsp;
+      <a href="#M000111">resources</a>&nbsp;&nbsp;
+      <a href="#M000112">schedules</a>&nbsp;&nbsp;
+      <a href="#M000117">yes_no</a>&nbsp;&nbsp;
+      <a href="#M000116">zero_one</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000106" class="method-detail">
+        <a name="M000106"></a>
+
+        <div class="method-heading">
+          <a href="BaseMake.src/M000106.html" target="Code" class="method-signature"
+            onclick="popupCode('BaseMake.src/M000106.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(caller,face_def)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+<a
+href="BaseMake.html">Composer::BaseMake</a>をincludeしたクラスにinitializeを定義する。
+@callerとして呼び元の<a
+href="FrontEnd.html">FrontEnd</a>オブジェクトを、その他<a
+href="BaseMake.html">Composer::BaseMake</a>の
+ドキュメントにて記述した各種インスタンス変数の初期化、及び、:on_setupが定義されている場合には、
+:on_setupの呼び出しを行う。
+</p>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000107" class="method-detail">
+        <a name="M000107"></a>
+
+        <div class="method-heading">
+          <a href="BaseMake.src/M000107.html" target="Code" class="method-signature"
+            onclick="popupCode('BaseMake.src/M000107.html');return false;">
+          <span class="method-name">calendars</span><span class="method-args">(&amp;b)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+calendar の解析結果(<a
+href="TwsObj/Calendar.html">Composer::TwsObj::Calendar</a>の配列)を得る。
+blockが指定された場合にはフィルタ条件と見なし、解析結果のうちブロックを評価した結果が真となる要素のみを返却する。
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000114" class="method-detail">
+        <a name="M000114"></a>
+
+        <div class="method-heading">
+          <a href="BaseMake.src/M000114.html" target="Code" class="method-signature"
+            onclick="popupCode('BaseMake.src/M000114.html');return false;">
+          <span class="method-name">cpuclasses</span><span class="method-args">(&amp;b)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+cpuclass の解析結果(<a
+href="TwsObj/CpuClass.html">Composer::TwsObj::CpuClass</a>の配列)を得る。
+blockが指定された場合にはフィルタ条件と見なし、解析結果のうちブロックを評価した結果が真となる要素のみを返却する。
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000113" class="method-detail">
+        <a name="M000113"></a>
+
+        <div class="method-heading">
+          <a href="BaseMake.src/M000113.html" target="Code" class="method-signature"
+            onclick="popupCode('BaseMake.src/M000113.html');return false;">
+          <span class="method-name">cpunames</span><span class="method-args">(&amp;b)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+cpunames の解析結果(<a
+href="TwsObj/CpuName.html">Composer::TwsObj::CpuName</a>の配列)を得る。
+blockが指定された場合にはフィルタ条件と見なし、解析結果のうちブロックを評価した結果が真となる要素のみを返却する。
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000115" class="method-detail">
+        <a name="M000115"></a>
+
+        <div class="method-heading">
+          <a href="BaseMake.src/M000115.html" target="Code" class="method-signature"
+            onclick="popupCode('BaseMake.src/M000115.html');return false;">
+          <span class="method-name">domains</span><span class="method-args">(&amp;b)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+domain の解析結果(<a
+href="TwsObj/Domain.html">Composer::TwsObj::Domain</a>の配列)を得る。
+blockが指定された場合にはフィルタ条件と見なし、解析結果のうちブロックを評価した結果が真となる要素のみを返却する。
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000108" class="method-detail">
+        <a name="M000108"></a>
+
+        <div class="method-heading">
+          <a href="BaseMake.src/M000108.html" target="Code" class="method-signature"
+            onclick="popupCode('BaseMake.src/M000108.html');return false;">
+          <span class="method-name">jobs</span><span class="method-args">(&amp;b)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+job の解析結果(<a
+href="TwsObj/Job.html">Composer::TwsObj::Job</a>の配列)を得る。
+blockが指定された場合にはフィルタ条件と見なし、解析結果のうちブロックを評価した結果が真となる要素のみを返却する。
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000118" class="method-detail">
+        <a name="M000118"></a>
+
+        <div class="method-heading">
+          <a href="BaseMake.src/M000118.html" target="Code" class="method-signature"
+            onclick="popupCode('BaseMake.src/M000118.html');return false;">
+          <span class="method-name">multi_line_string</span><span class="method-args">(collection,linewidth=1,separator=&quot;,&quot;) {|collection.first)| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+引数で受け取ったcollectionの各要素をlinewidth(デフォルトは1)個分を1行とした文字列を返却する。
+各フィールドはseparator(デフォルトは&#8217;,&#8217;)で区切られる。
+</p>
+<pre>
+ &gt; How to use.
+ data=%w( A B C D E F G )
+ multi_line_string(data) #=&gt; &quot;\&quot;A,\nB,\nC,\nD,\nE,\nF,\nG\&quot;&quot;
+ multi_line_string(data,3) #=&gt; &quot;\&quot;A,B,C,\nD,E,F,\nG\&quot;&quot;
+ multi_line_string(data,3,'=') #=&gt; &quot;\&quot;A=B=C=\nD=E=F=\nG\&quot;&quot;
+</pre>
+<p>
+ブロックと共に呼んだ際には、collectionの各要素でブロックを評価した値を用いて連結。
+</p>
+<pre>
+ &gt; How to use.
+ data=%w( A B C D E F G )
+ multi_line_string(data){|i| i.downcase } #=&gt; &quot;\&quot;a,\nb,\nc,\nd,\ne,\nf,\ng\&quot;&quot;
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000109" class="method-detail">
+        <a name="M000109"></a>
+
+        <div class="method-heading">
+          <a href="BaseMake.src/M000109.html" target="Code" class="method-signature"
+            onclick="popupCode('BaseMake.src/M000109.html');return false;">
+          <span class="method-name">parameters</span><span class="method-args">(&amp;b)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+parameter の解析結果(<a
+href="TwsObj/Parameter.html">Composer::TwsObj::Parameter</a>の配列)を得る。
+blockが指定された場合にはフィルタ条件と見なし、解析結果のうちブロックを評価した結果が真となる要素のみを返却する。
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000110" class="method-detail">
+        <a name="M000110"></a>
+
+        <div class="method-heading">
+          <a href="BaseMake.src/M000110.html" target="Code" class="method-signature"
+            onclick="popupCode('BaseMake.src/M000110.html');return false;">
+          <span class="method-name">prompts</span><span class="method-args">(&amp;b)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+prompt の解析結果(<a
+href="TwsObj/Prompt.html">Composer::TwsObj::Prompt</a>の配列)を得る。
+blockが指定された場合にはフィルタ条件と見なし、解析結果のうちブロックを評価した結果が真となる要素のみを返却する。
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000111" class="method-detail">
+        <a name="M000111"></a>
+
+        <div class="method-heading">
+          <a href="BaseMake.src/M000111.html" target="Code" class="method-signature"
+            onclick="popupCode('BaseMake.src/M000111.html');return false;">
+          <span class="method-name">resources</span><span class="method-args">(&amp;b)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+resource の解析結果(<a
+href="TwsObj/Resource.html">Composer::TwsObj::Resource</a>の配列)を得る。
+blockが指定された場合にはフィルタ条件と見なし、解析結果のうちブロックを評価した結果が真となる要素のみを返却する。
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000112" class="method-detail">
+        <a name="M000112"></a>
+
+        <div class="method-heading">
+          <a href="BaseMake.src/M000112.html" target="Code" class="method-signature"
+            onclick="popupCode('BaseMake.src/M000112.html');return false;">
+          <span class="method-name">schedules</span><span class="method-args">(&amp;b)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+schedule の解析結果(<a
+href="TwsObj/Schedule.html">Composer::TwsObj::Schedule</a>の配列)を得る。
+blockが指定された場合にはフィルタ条件と見なし、解析結果のうちブロックを評価した結果が真となる要素のみを返却する。
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000117" class="method-detail">
+        <a name="M000117"></a>
+
+        <div class="method-heading">
+          <a href="BaseMake.src/M000117.html" target="Code" class="method-signature"
+            onclick="popupCode('BaseMake.src/M000117.html');return false;">
+          <span class="method-name">yes_no</span><span class="method-args">(bool)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Y又はNに変換する。
+真ならば&#8217;Y&#8217;、偽(nil,false)ならば&#8217;N&#8217;
+</p>
+<p>
+empty?が真ならば偽として扱う。
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000116" class="method-detail">
+        <a name="M000116"></a>
+
+        <div class="method-heading">
+          <a href="BaseMake.src/M000116.html" target="Code" class="method-signature"
+            onclick="popupCode('BaseMake.src/M000116.html');return false;">
+          <span class="method-name">zero_one</span><span class="method-args">(bool)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+0又は1に変換する。
+真ならば&#8217;1&#8217;、偽(nil,false)ならば&#8217;0&#8217;
+</p>
+<p>
+empty?が真ならば偽として扱う。
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

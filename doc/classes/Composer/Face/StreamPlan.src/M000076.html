@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>range_set (Composer::Face::StreamPlan)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File face/stream_plan/stream_plan.rb, line 62</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">range_set</span>(<span class="ruby-identifier">date_a</span>=<span class="ruby-keyword kw">nil</span>,<span class="ruby-identifier">date_b</span>=<span class="ruby-keyword kw">nil</span>)
+      <span class="ruby-identifier">date_a</span> <span class="ruby-value">? </span> <span class="ruby-identifier">dateA</span>=<span class="ruby-constant">Date</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">date_a</span>,<span class="ruby-keyword kw">true</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">dateA</span>=<span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>
+      <span class="ruby-identifier">date_b</span> <span class="ruby-value">? </span> <span class="ruby-identifier">dateB</span>=<span class="ruby-constant">Date</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">date_b</span>,<span class="ruby-keyword kw">true</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">dateB</span>=<span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dateA</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">dateB</span>
+        <span class="ruby-identifier">fromdate</span>=<span class="ruby-identifier">dateB</span>
+        <span class="ruby-identifier">todate</span>=<span class="ruby-identifier">dateA</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">fromdate</span>=<span class="ruby-identifier">dateA</span>
+        <span class="ruby-identifier">todate</span>=<span class="ruby-identifier">dateB</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-ivar">@fromdate</span>=<span class="ruby-identifier">fromdate</span>.<span class="ruby-identifier">first_day_of_month</span>
+      <span class="ruby-ivar">@todate</span>=<span class="ruby-identifier">todate</span>.<span class="ruby-identifier">last_day_of_month</span>
+
+      <span class="ruby-comment cmt">#@months_to_create の構築</span>
+      <span class="ruby-identifier">buff</span>=<span class="ruby-ivar">@fromdate</span>
+      <span class="ruby-ivar">@months_to_create</span>.<span class="ruby-identifier">push</span> <span class="ruby-identifier">buff</span>.<span class="ruby-identifier">year_and_month</span>
+      <span class="ruby-keyword kw">while</span> <span class="ruby-keyword kw">true</span>
+        <span class="ruby-keyword kw">break</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">buff</span>.<span class="ruby-identifier">year_and_month</span> <span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@todate</span>.<span class="ruby-identifier">year_and_month</span>
+        <span class="ruby-ivar">@months_to_create</span>.<span class="ruby-identifier">push</span> <span class="ruby-identifier">buff</span>.<span class="ruby-identifier">year_and_month</span>
+        <span class="ruby-identifier">buff</span> = <span class="ruby-identifier">buff</span> <span class="ruby-operator">&gt;&gt;</span> <span class="ruby-value">1</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-ivar">@months_to_create</span>.<span class="ruby-identifier">uniq!</span>
+      <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;#{self.class}&quot;</span>){<span class="ruby-node">&quot;Range set [ Fromdate:#{@fromdate.to_s}, Todate:#{@todate.to_s} ]&quot;</span>}
+      <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;#{self.class}&quot;</span>){<span class="ruby-node">&quot;Range set [ #{@months_to_create.join(' ')} ]&quot;</span>}
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

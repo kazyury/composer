@@ -1,0 +1,4 @@
+stream name,comment,freedays,on,except,at,deadline,until,onuntil,follows,needs,opens,jobs,carry forward?,key schedule?,priority
+<% schedules.each do |s| -%>
+<%= s.fullname %>,"<%= s.comment %>",<%= s.freedays %>,<%= multi_line_string(s.on) %>,<%= multi_line_string(s.except) %>,<%= multi_line_string(s.at) %>,<%= multi_line_string(s.deadline) %>,<%= multi_line_string(s.until) %>,<%= s.onuntil %>,<%= multi_line_string(s.follows) %>,<%= multi_line_string(s.needs){|res| "#{res.units} #{res.fullname}"} %>,<%= multi_line_string(s.opens) %>,<%= multi_line_string(s.jobs) %>,<%= yes_no(s.carryforward?) %>,<%= yes_no(s.keyschedule?) %>,<%= s.priority %>
+<% end -%>

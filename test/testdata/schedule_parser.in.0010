@@ -1,0 +1,7 @@
+SCHEDULE cpu1#sched1
+ON everyday
+KEYSCHED
+AT 0100
+:cpu1#myjob1 KEYJOB
+END
+

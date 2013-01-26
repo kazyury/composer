@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>format (Composer::Face::StreamPlan)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File face/stream_plan/stream_plan.rb, line 92</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">format</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">calendars</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">schedules</span>.<span class="ruby-identifier">empty?</span>
+        <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">error</span>(<span class="ruby-node">&quot;#{self.class}&quot;</span>){<span class="ruby-value str">&quot;To use stream_plan, schedules and calendars must be set. &quot;</span>}
+        <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@fromdate</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@todate</span>
+        <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">error</span>(<span class="ruby-node">&quot;#{self.class}&quot;</span>){<span class="ruby-value str">&quot;To convert, date range must be set. use composer#prepare(:range_set,fromdate,todate)&quot;</span>}
+        <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span>
+      <span class="ruby-keyword kw">end</span>
+
+      <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;#{self.class}&quot;</span>){<span class="ruby-value str">&quot;Expanding dates of stream . this may take several time.&quot;</span>}
+      <span class="ruby-comment cmt">#各ジョブストリームのON句、Except句で指定されたカレンダーやリテラルをDateオブジェクトに展開し、</span>
+      <span class="ruby-comment cmt">#ジョブストリームをキーとしたHashに格納する。</span>
+      <span class="ruby-identifier">schedules</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">sched</span><span class="ruby-operator">|</span> 
+        <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;#{self.class}&quot;</span>){<span class="ruby-node">&quot;Expanding dates of stream [ #{sched.fullname} ].&quot;</span>}
+        <span class="ruby-comment cmt">#年月別の日付オブジェクトハッシュ</span>
+        <span class="ruby-identifier">partitioned_yyyymm</span>={}
+        <span class="ruby-ivar">@months_to_create</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">yyyymm</span><span class="ruby-operator">|</span> <span class="ruby-identifier">partitioned_yyyymm</span>[<span class="ruby-identifier">yyyymm</span>]=[] }
+        <span class="ruby-identifier">calcurated</span>=<span class="ruby-identifier">calc_dates</span>(<span class="ruby-identifier">sched</span>)
+        <span class="ruby-keyword kw">while</span> <span class="ruby-identifier">aDate</span>=<span class="ruby-identifier">calcurated</span>.<span class="ruby-identifier">shift</span>
+          <span class="ruby-identifier">partitioned_yyyymm</span>[<span class="ruby-identifier">aDate</span>.<span class="ruby-identifier">year_and_month</span>].<span class="ruby-identifier">push</span> <span class="ruby-identifier">aDate</span>
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-ivar">@stream_planned_dates</span>[<span class="ruby-identifier">sched</span>]=<span class="ruby-identifier">partitioned_yyyymm</span>
+      }
+
+      <span class="ruby-ivar">@sorted_schedule</span>=<span class="ruby-identifier">schedules</span>.<span class="ruby-identifier">sort_by</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">fullname</span> }
+      <span class="ruby-ivar">@size_of_stream</span>=<span class="ruby-identifier">schedules</span>.<span class="ruby-identifier">size</span>
+
+      <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-node">&quot;#{self.class}&quot;</span>){<span class="ruby-value str">&quot;writing to Microsoft Excel. -- DO NOT USE Excel -- until ends.&quot;</span>}
+      <span class="ruby-ivar">@xls</span>=<span class="ruby-constant">WIN32OLE</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">'Excel.Application'</span>)
+      <span class="ruby-constant">WIN32OLE</span>.<span class="ruby-identifier">const_load</span>(<span class="ruby-ivar">@xls</span>, <span class="ruby-constant">ExcelConst</span>)
+      <span class="ruby-ivar">@xls</span>.<span class="ruby-identifier">visible</span>=<span class="ruby-ivar">@visible</span>
+      <span class="ruby-ivar">@xls</span>.<span class="ruby-identifier">displayAlerts</span>=<span class="ruby-keyword kw">false</span>
+      <span class="ruby-ivar">@book</span>=<span class="ruby-ivar">@xls</span>.<span class="ruby-identifier">workbooks</span>.<span class="ruby-identifier">add</span>(<span class="ruby-ivar">@template</span>)
+
+      <span class="ruby-keyword kw">begin</span>
+        <span class="ruby-comment cmt">#各シート毎の処理を開始する。</span>
+        <span class="ruby-ivar">@months_to_create</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">yyyymm</span><span class="ruby-operator">|</span> 
+          <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;#{self.class}&quot;</span>){<span class="ruby-node">&quot;Creating [ #{yyyymm} ] sheet data.&quot;</span>}
+          <span class="ruby-identifier">create_yyyymm_sheet</span>(<span class="ruby-identifier">yyyymm</span>) 
+        }
+        <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-node">&quot;#{self.class}&quot;</span>){<span class="ruby-node">&quot;saving stream plan to [ #{@outfile} ]. &quot;</span>}
+        <span class="ruby-ivar">@book</span>.<span class="ruby-identifier">saveAs</span>(<span class="ruby-ivar">@outfile</span>)
+      <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span>=<span class="ruby-operator">&gt;</span><span class="ruby-identifier">e</span>
+        <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">error</span>(<span class="ruby-node">&quot;#{self.class}&quot;</span>){<span class="ruby-node">&quot;Exception [ #{e.class} ] raised while creating sheet data.&quot;</span>}
+        <span class="ruby-identifier">raise</span> <span class="ruby-identifier">e</span>
+      <span class="ruby-keyword kw">ensure</span>
+        <span class="ruby-ivar">@book</span>.<span class="ruby-identifier">close</span>
+        <span class="ruby-ivar">@xls</span>.<span class="ruby-identifier">quit</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

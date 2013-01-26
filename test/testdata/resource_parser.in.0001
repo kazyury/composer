@@ -1,0 +1,6 @@
+$resource
+  ux1#tapes  3 "tape units" 
+  ux1#jobslots  24 "job slots" 
+  ux2#tapes  2
+  ux2#jobslots  16 "job slots"
+

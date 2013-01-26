@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>add_template (Composer::Face::DefaultFace)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File face/default_face/default_face.rb, line 39</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_template</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">tmpls</span>)
+      <span class="ruby-identifier">tmpls</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">tmpl</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-constant">VALID_TEMPLATES</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">tmpl</span>.<span class="ruby-identifier">downcase</span>
+          <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;#{self.class}&quot;</span>){<span class="ruby-node">&quot;template [ #{tmpl} ] is set.&quot;</span>}
+          <span class="ruby-ivar">@templates</span>.<span class="ruby-identifier">push</span> <span class="ruby-identifier">tmpl</span>.<span class="ruby-identifier">downcase</span>
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-node">&quot;#{self.class}&quot;</span>){<span class="ruby-node">&quot;template should [ #{valid_templates.join(' ')} ],but was [ #{tmpl} ]&quot;</span>}
+        <span class="ruby-keyword kw">end</span>
+      }
+      <span class="ruby-ivar">@templates</span>.<span class="ruby-identifier">flatten!</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

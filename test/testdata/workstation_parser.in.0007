@@ -1,0 +1,10 @@
+domain east description "The Eastern domain"
+     manager cyclops 
+end 
+domain northeast description "The Northeastern domain" 
+     manager boxcar      parent east 
+end 
+domain southeast description "The Southeastern domain"
+     manager sedan      parent east 
+end 
+

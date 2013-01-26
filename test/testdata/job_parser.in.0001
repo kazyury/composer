@@ -1,0 +1,10 @@
+$jobs
+cpu1#gl1
+		scriptname "/usr/acct/scripts/gl1"
+		streamlogon acct
+		description "general ledger job1"
+bkup
+		scriptname "/usr/mis/scripts/bkup"
+		streamlogon "^mis^"
+		recovery continue after recjob1
+

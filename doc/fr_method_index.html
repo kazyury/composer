@@ -1,0 +1,167 @@
+
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!--
+
+    Methods
+
+  -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Methods</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+  <link rel="stylesheet" href="rdoc-style.css" type="text/css" />
+  <base target="docwin" />
+</head>
+<body>
+<div id="index">
+  <h1 class="section-bar">Methods</h1>
+  <div id="index-entries">
+    <a href="classes/Composer/SingletonLogger.html#M000140">_dump (Composer::SingletonLogger)</a><br />
+    <a href="classes/Composer/SingletonLogger.html#M000141">_load (Composer::SingletonLogger)</a><br />
+    <a href="classes/Composer/Parser/ScheduleParser.html#M000097">_reduce_none (Composer::Parser::ScheduleParser)</a><br />
+    <a href="classes/Composer/Parser/WorkstationParser.html#M000095">_reduce_none (Composer::Parser::WorkstationParser)</a><br />
+    <a href="classes/Composer/Parser/CalendarParser.html#M000093">_reduce_none (Composer::Parser::CalendarParser)</a><br />
+    <a href="classes/Composer/Parser/ParameterParser.html#M000105">_reduce_none (Composer::Parser::ParameterParser)</a><br />
+    <a href="classes/Composer/Parser/JobParser.html#M000101">_reduce_none (Composer::Parser::JobParser)</a><br />
+    <a href="classes/Composer/Parser/PromptParser.html#M000103">_reduce_none (Composer::Parser::PromptParser)</a><br />
+    <a href="classes/Composer/Parser/ResourceParser.html#M000099">_reduce_none (Composer::Parser::ResourceParser)</a><br />
+    <a href="classes/Composer/Face/DefaultFace.html#M000072">add_template (Composer::Face::DefaultFace)</a><br />
+    <a href="classes/Composer/TwsObj/Calendar.html#M000050">append_date (Composer::TwsObj::Calendar)</a><br />
+    <a href="classes/Composer/Scanner/ModeSwitchableScanner.html#M000082">append_tokens (Composer::Scanner::ModeSwitchableScanner)</a><br />
+    <a href="classes/Composer/Scanner/GenericScanner.html#M000088">append_tokens (Composer::Scanner::GenericScanner)</a><br />
+    <a href="classes/Composer/TwsObj/CpuName.html#M000043">autolink? (Composer::TwsObj::CpuName)</a><br />
+    <a href="classes/Composer/TwsObj/CpuName.html#M000044">behindfirewall? (Composer::TwsObj::CpuName)</a><br />
+    <a href="classes/Composer/Scanner/ModeSwitchableScanner.html#M000084">builtin_token (Composer::Scanner::ModeSwitchableScanner)</a><br />
+    <a href="classes/Composer/Scanner/GenericScanner.html#M000090">builtin_token (Composer::Scanner::GenericScanner)</a><br />
+    <a href="classes/Composer/DateCalculater.html#M000138">calculate (Composer::DateCalculater)</a><br />
+    <a href="classes/Composer/FrontEnd.html#M000120">calendars (Composer::FrontEnd)</a><br />
+    <a href="classes/Composer/BaseMake.html#M000107">calendars (Composer::BaseMake)</a><br />
+    <a href="classes/Composer/TwsObj/Schedule.html#M000018">carryforward? (Composer::TwsObj::Schedule)</a><br />
+    <a href="classes/Composer/Face/Subnet.html#M000064">convert (Composer::Face::Subnet)</a><br />
+    <a href="classes/Composer/FrontEnd.html#M000136">convert (Composer::FrontEnd)</a><br />
+    <a href="classes/Composer/BaseMake.html#M000114">cpuclasses (Composer::BaseMake)</a><br />
+    <a href="classes/Composer/FrontEnd.html#M000127">cpuclasses (Composer::FrontEnd)</a><br />
+    <a href="classes/Composer/BaseMake.html#M000113">cpunames (Composer::BaseMake)</a><br />
+    <a href="classes/Composer/FrontEnd.html#M000126">cpunames (Composer::FrontEnd)</a><br />
+    <a href="classes/Composer/TwsObj/Calendar.html#M000049">dates (Composer::TwsObj::Calendar)</a><br />
+    <a href="classes/Composer/FrontEnd.html#M000131">def_file_kcode= (Composer::FrontEnd)</a><br />
+    <a href="classes/Composer/Face/Subnet.html#M000065">divide_schedules (Composer::Face::Subnet)</a><br />
+    <a href="classes/Composer/FrontEnd.html#M000128">domains (Composer::FrontEnd)</a><br />
+    <a href="classes/Composer/BaseMake.html#M000115">domains (Composer::BaseMake)</a><br />
+    <a href="classes/Composer/FrontEnd.html#M000133">face= (Composer::FrontEnd)</a><br />
+    <a href="classes/Date.html#M000002">first_day_of_month (Date)</a><br />
+    <a href="classes/Composer/Face/StreamPlan.html#M000077">format (Composer::Face::StreamPlan)</a><br />
+    <a href="classes/Composer/Face/DefaultFace.html#M000073">format (Composer::Face::DefaultFace)</a><br />
+    <a href="classes/Composer/TwsObj/Schedule.html#M000021">freedays (Composer::TwsObj::Schedule)</a><br />
+    <a href="classes/Composer/TwsObj/Follow.html#M000026">fullname (Composer::TwsObj::Follow)</a><br />
+    <a href="classes/Composer/TwsObj/Job.html#M000034">fullname (Composer::TwsObj::Job)</a><br />
+    <a href="classes/Composer/TwsObj/Resource.html#M000030">fullname (Composer::TwsObj::Resource)</a><br />
+    <a href="classes/Composer/TwsObj/Schedule.html#M000016">fullname (Composer::TwsObj::Schedule)</a><br />
+    <a href="classes/Composer/TwsObj/CpuName.html#M000045">fullstatus? (Composer::TwsObj::CpuName)</a><br />
+    <a href="classes/Composer/Face/Subnet.html#M000066">graph_search (Composer::Face::Subnet)</a><br />
+    <a href="classes/UserInterface.html#M000001">guess_format_and_run (UserInterface)</a><br />
+    <a href="classes/Composer/Face/Subnet.html#M000068">has_follows (Composer::Face::Subnet)</a><br />
+    <a href="classes/Composer/Face/Subnet.html#M000067">has_follows? (Composer::Face::Subnet)</a><br />
+    <a href="classes/Composer/TwsObj/CpuName.html#M000042">ignore? (Composer::TwsObj::CpuName)</a><br />
+    <a href="classes/Composer/TwsObj/Job.html#M000033">interactive? (Composer::TwsObj::Job)</a><br />
+    <a href="classes/Composer/Face/Subnet.html#M000070">is_followed (Composer::Face::Subnet)</a><br />
+    <a href="classes/Composer/Face/Subnet.html#M000069">is_followed? (Composer::Face::Subnet)</a><br />
+    <a href="classes/Composer/ParserUtils.html#M000059">is_valid? (Composer::ParserUtils)</a><br />
+    <a href="classes/Composer/FrontEnd.html#M000121">jobs (Composer::FrontEnd)</a><br />
+    <a href="classes/Composer/BaseMake.html#M000108">jobs (Composer::BaseMake)</a><br />
+    <a href="classes/Composer/TwsObj/ScheduledJob.html#M000010">keyjob? (Composer::TwsObj::ScheduledJob)</a><br />
+    <a href="classes/Composer/TwsObj/Schedule.html#M000019">keysched? (Composer::TwsObj::Schedule)</a><br />
+    <a href="classes/Composer/TwsObj/Schedule.html#M000020">keyschedule? (Composer::TwsObj::Schedule)</a><br />
+    <a href="classes/Date.html#M000003">last_day_of_month (Date)</a><br />
+    <a href="classes/Composer/FrontEnd.html#M000129">log_level= (Composer::FrontEnd)</a><br />
+    <a href="classes/Composer/BaseMake.html#M000118">multi_line_string (Composer::BaseMake)</a><br />
+    <a href="classes/Composer/TwsObj/Schedule.html#M000014">new (Composer::TwsObj::Schedule)</a><br />
+    <a href="classes/Composer/TwsObj/ScheduledDate.html#M000012">new (Composer::TwsObj::ScheduledDate)</a><br />
+    <a href="classes/Composer/FrontEnd.html#M000119">new (Composer::FrontEnd)</a><br />
+    <a href="classes/Composer/TwsObj/ScheduledJob.html#M000009">new (Composer::TwsObj::ScheduledJob)</a><br />
+    <a href="classes/Composer/BaseMake.html#M000106">new (Composer::BaseMake)</a><br />
+    <a href="classes/Composer/TwsObj/Prompt.html#M000038">new (Composer::TwsObj::Prompt)</a><br />
+    <a href="classes/Composer/TwsObj/Domain.html#M000007">new (Composer::TwsObj::Domain)</a><br />
+    <a href="classes/Composer/TwsObj/Parameter.html#M000052">new (Composer::TwsObj::Parameter)</a><br />
+    <a href="classes/Composer/TwsObj/ScheduledTime.html#M000005">new (Composer::TwsObj::ScheduledTime)</a><br />
+    <a href="classes/Composer/DateCalculater.html#M000137">new (Composer::DateCalculater)</a><br />
+    <a href="classes/Composer/TwsObj/CpuName.html#M000041">new (Composer::TwsObj::CpuName)</a><br />
+    <a href="classes/Composer/TwsObj/Calendar.html#M000048">new (Composer::TwsObj::Calendar)</a><br />
+    <a href="classes/Composer/TwsObj/CpuClass.html#M000022">new (Composer::TwsObj::CpuClass)</a><br />
+    <a href="classes/Composer/SingletonLogger.html#M000139">new (Composer::SingletonLogger)</a><br />
+    <a href="classes/Composer/TwsObj/Follow.html#M000024">new (Composer::TwsObj::Follow)</a><br />
+    <a href="classes/Composer/Scanner/ModeSwitchableScanner.html#M000079">new (Composer::Scanner::ModeSwitchableScanner)</a><br />
+    <a href="classes/Composer/TwsObj/Resource.html#M000028">new (Composer::TwsObj::Resource)</a><br />
+    <a href="classes/Composer/Scanner/GenericScanner.html#M000087">new (Composer::Scanner::GenericScanner)</a><br />
+    <a href="classes/Composer/TwsObj/Job.html#M000031">new (Composer::TwsObj::Job)</a><br />
+    <a href="classes/Composer/TwsObj/DependFile.html#M000036">new (Composer::TwsObj::DependFile)</a><br />
+    <a href="classes/Composer/Scanner/ModeSwitchableScanner.html#M000081">on (Composer::Scanner::ModeSwitchableScanner)</a><br />
+    <a href="classes/Composer/ParserUtils.html#M000060">on_error (Composer::ParserUtils)</a><br />
+    <a href="classes/Composer/Face/StreamPlan.html#M000078">on_exiting (Composer::Face::StreamPlan)</a><br />
+    <a href="classes/Composer/Face/Jobnet.html#M000062">on_exiting (Composer::Face::Jobnet)</a><br />
+    <a href="classes/Composer/Face/Jobnet.html#M000061">on_setup (Composer::Face::Jobnet)</a><br />
+    <a href="classes/Composer/Face/StreamPlan.html#M000074">on_setup (Composer::Face::StreamPlan)</a><br />
+    <a href="classes/Composer/Face/Subnet.html#M000063">on_setup (Composer::Face::Subnet)</a><br />
+    <a href="classes/Composer/Face/DefaultFace.html#M000071">on_setup (Composer::Face::DefaultFace)</a><br />
+    <a href="classes/Composer/FrontEnd.html#M000122">parameters (Composer::FrontEnd)</a><br />
+    <a href="classes/Composer/BaseMake.html#M000109">parameters (Composer::BaseMake)</a><br />
+    <a href="classes/Composer/Parser/ParameterParser.html#M000104">parse (Composer::Parser::ParameterParser)</a><br />
+    <a href="classes/Composer/Parser/JobParser.html#M000100">parse (Composer::Parser::JobParser)</a><br />
+    <a href="classes/Composer/Parser/CalendarParser.html#M000092">parse (Composer::Parser::CalendarParser)</a><br />
+    <a href="classes/Composer/Parser/PromptParser.html#M000102">parse (Composer::Parser::PromptParser)</a><br />
+    <a href="classes/Composer/Parser/WorkstationParser.html#M000094">parse (Composer::Parser::WorkstationParser)</a><br />
+    <a href="classes/Composer/FrontEnd.html#M000132">parse (Composer::FrontEnd)</a><br />
+    <a href="classes/Composer/Parser/ScheduleParser.html#M000096">parse (Composer::Parser::ScheduleParser)</a><br />
+    <a href="classes/Composer/Parser/ResourceParser.html#M000098">parse (Composer::Parser::ResourceParser)</a><br />
+    <a href="classes/Composer/FrontEnd.html#M000134">pre_conversion (Composer::FrontEnd)</a><br />
+    <a href="classes/Composer/FrontEnd.html#M000135">prepare (Composer::FrontEnd)</a><br />
+    <a href="classes/Composer/BaseMake.html#M000110">prompts (Composer::BaseMake)</a><br />
+    <a href="classes/Composer/FrontEnd.html#M000123">prompts (Composer::FrontEnd)</a><br />
+    <a href="classes/Composer/ParserUtils.html#M000057">racc_debug (Composer::ParserUtils)</a><br />
+    <a href="classes/Composer/FrontEnd.html#M000130">racc_debug= (Composer::FrontEnd)</a><br />
+    <a href="classes/Composer/Face/StreamPlan.html#M000076">range_set (Composer::Face::StreamPlan)</a><br />
+    <a href="classes/Composer/Scanner/ModeSwitchableScanner.html#M000086">regist_default_token (Composer::Scanner::ModeSwitchableScanner)</a><br />
+    <a href="classes/Composer/Scanner/ModeSwitchableScanner.html#M000083">reserved_word (Composer::Scanner::ModeSwitchableScanner)</a><br />
+    <a href="classes/Composer/Scanner/GenericScanner.html#M000089">reserved_word (Composer::Scanner::GenericScanner)</a><br />
+    <a href="classes/Composer/TwsObj/CpuName.html#M000046">resolvedep? (Composer::TwsObj::CpuName)</a><br />
+    <a href="classes/Composer/FrontEnd.html#M000124">resources (Composer::FrontEnd)</a><br />
+    <a href="classes/Composer/BaseMake.html#M000111">resources (Composer::BaseMake)</a><br />
+    <a href="classes/Composer/Scanner/ModeSwitchableScanner.html#M000085">scan (Composer::Scanner::ModeSwitchableScanner)</a><br />
+    <a href="classes/Composer/Scanner/GenericScanner.html#M000091">scan (Composer::Scanner::GenericScanner)</a><br />
+    <a href="classes/Composer/ParserUtils.html#M000058">scan_line= (Composer::ParserUtils)</a><br />
+    <a href="classes/Composer/FrontEnd.html#M000125">schedules (Composer::FrontEnd)</a><br />
+    <a href="classes/Composer/BaseMake.html#M000112">schedules (Composer::BaseMake)</a><br />
+    <a href="classes/Composer/SensitiveAttr.html#M000056">sensitive_accessor (Composer::SensitiveAttr)</a><br />
+    <a href="classes/Composer/SensitiveAttr.html#M000054">sensitive_reader (Composer::SensitiveAttr)</a><br />
+    <a href="classes/Composer/SensitiveAttr.html#M000055">sensitive_writer (Composer::SensitiveAttr)</a><br />
+    <a href="classes/Composer/TwsObj/CpuClass.html#M000023">set_enough? (Composer::TwsObj::CpuClass)</a><br />
+    <a href="classes/Composer/TwsObj/Calendar.html#M000051">set_enough? (Composer::TwsObj::Calendar)</a><br />
+    <a href="classes/Composer/TwsObj/Prompt.html#M000040">set_enough? (Composer::TwsObj::Prompt)</a><br />
+    <a href="classes/Composer/TwsObj/CpuName.html#M000047">set_enough? (Composer::TwsObj::CpuName)</a><br />
+    <a href="classes/Composer/TwsObj/Schedule.html#M000015">set_enough? (Composer::TwsObj::Schedule)</a><br />
+    <a href="classes/Composer/TwsObj/Domain.html#M000008">set_enough? (Composer::TwsObj::Domain)</a><br />
+    <a href="classes/Composer/TwsObj/Job.html#M000032">set_enough? (Composer::TwsObj::Job)</a><br />
+    <a href="classes/Composer/TwsObj/Resource.html#M000029">set_enough? (Composer::TwsObj::Resource)</a><br />
+    <a href="classes/Composer/TwsObj/Parameter.html#M000053">set_enough? (Composer::TwsObj::Parameter)</a><br />
+    <a href="classes/Composer/TwsObj/Follow.html#M000027">shortname (Composer::TwsObj::Follow)</a><br />
+    <a href="classes/Composer/TwsObj/Schedule.html#M000017">shortname (Composer::TwsObj::Schedule)</a><br />
+    <a href="classes/Composer/Scanner/ModeSwitchableScanner.html#M000080">switch (Composer::Scanner::ModeSwitchableScanner)</a><br />
+    <a href="classes/Composer/TwsObj/Follow.html#M000025">to_s (Composer::TwsObj::Follow)</a><br />
+    <a href="classes/Composer/TwsObj/Job.html#M000035">to_s (Composer::TwsObj::Job)</a><br />
+    <a href="classes/Composer/TwsObj/ScheduledTime.html#M000006">to_s (Composer::TwsObj::ScheduledTime)</a><br />
+    <a href="classes/Composer/TwsObj/ScheduledDate.html#M000013">to_s (Composer::TwsObj::ScheduledDate)</a><br />
+    <a href="classes/Composer/TwsObj/ScheduledJob.html#M000011">to_s (Composer::TwsObj::ScheduledJob)</a><br />
+    <a href="classes/Composer/TwsObj/DependFile.html#M000037">to_s (Composer::TwsObj::DependFile)</a><br />
+    <a href="classes/Composer/TwsObj/Prompt.html#M000039">value= (Composer::TwsObj::Prompt)</a><br />
+    <a href="classes/Composer/Face/StreamPlan.html#M000075">visible= (Composer::Face::StreamPlan)</a><br />
+    <a href="classes/Date.html#M000004">year_and_month (Date)</a><br />
+    <a href="classes/Composer/BaseMake.html#M000117">yes_no (Composer::BaseMake)</a><br />
+    <a href="classes/Composer/BaseMake.html#M000116">zero_one (Composer::BaseMake)</a><br />
+  </div>
+</div>
+</body>
+</html>

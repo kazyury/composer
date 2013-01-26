@@ -1,0 +1,26 @@
+---
+calendars: test\testdata\calendar_parser.in.0001
+jobs: test\testdata\job_parser.in.0001
+parameters: test\testdata\parameter_parser.in.0001
+prompts: test\testdata\prompt_parser.in.0001
+resources: test\testdata\resource_parser.in.0001
+schedules: test\testdata\schedule_parser.in.0001
+workstations: test\testdata\workstation_parser.in.0001
+faces: 
+  - face: default_face
+  - face: stream_plan
+    prep: 
+    -  - range_set
+       - "2006-01-01"
+       - "2006-02-01"
+  - face: jobnet
+    prep:
+    -  - outformat=
+       - svg
+    -  - stream_filter=
+       - S2_(JBA[^U]|JBT|JBI|JBX)
+    -  - draw_only_request=
+       - false
+log_level: 1
+use_cache: true
+tws_level: "8.2"

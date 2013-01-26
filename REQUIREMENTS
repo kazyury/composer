@@ -1,0 +1,22 @@
+= Requirements
+
+=== composer_face
+composer_face.exe (Win実行モジュール形式)
+- 特になし
+composer_face.rb (rubyスクリプト)
+- Ruby 1.8.4～
+- Racc  (パーサを再生成する場合のみ必要。Racc runtimeは上記Rubyならば標準添付)
+- Exerb (Win実行モジュール形式の生成を行う場合のみ必要)
+- Rake  (ドキュメントの生成、パーサの生成、Win実行モジュールの生成等を、添付のrakefileを用いて行う場合のみ必要)
+
+=== Face::StreamPlan
+- Microsoft Excel
+
+=== Face::Jobnet
+- graphviz
+- SVG viewer (出力形式をSVG(デフォルト)とする場合にあると便利)
+
+=== Face::Subnet
+- graphviz
+- SVG viewer (出力形式をSVG(デフォルト)とする場合にあると便利)
+

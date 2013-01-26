@@ -1,0 +1,7 @@
+schedule test1 on monthend
+:
+job1
+job2 
+job3
+end << end of job stream >> 
+

@@ -1,0 +1,4 @@
+workstation,name,scriptname/docommand,user,interactive?,recovery,recovery_job,description
+<% jobs.each do |job| -%>
+<%=job.wkstation %>,<%= job.name %>,<%= job.scriptname || job.docommand %>,<%= job.streamlogon %>,<%= yes_no(job.interactive) %>,<%= job.recovery %>,<%= job.fullname(true) %>,<%= job.description %>
+<% end -%>

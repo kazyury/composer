@@ -1,0 +1,14 @@
+SCHEDULE sked01 on everyday:
+job01 until   2035 onuntil suppr
+end 
+
+SCHEDULE sked02 on everyday follows sked01.@
+:
+job02
+end 
+
+SCHEDULE sked03 on everyday follows  sked01.JTEST
+:
+job03
+END
+

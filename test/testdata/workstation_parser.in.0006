@@ -1,0 +1,4 @@
+domain east description "The Eastern domain"
+     manager cyclops 
+end 
+

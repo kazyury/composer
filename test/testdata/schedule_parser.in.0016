@@ -1,0 +1,8 @@
+schedule sked4  on fr  at 0800 + 2 days  
+  until 1300 + 2 days 
+:
+  job1
+  job2  at 0900  <<launched on sunday>>
+  job3  follows job2  at 1200  <<launched on sunday>>
+end 
+
